@@ -7,5 +7,33 @@ from django.views.generic import TemplateView
 # Create your views here.
 
 
-class HomeView(TemplateView):
+class WelcomePageView(TemplateView):
     template_name = 'home.html'
+
+
+class TeacherMainView:
+    pass
+
+
+class ParentMainView:
+    pass
+
+
+class StudentDetailView:
+    pass
+
+
+class UnauthorizedView:
+    pass
+
+
+class GroupView:
+    pass
+
+
+class CourseView:
+    pass
+
+
+class JournalView:
+    pass
