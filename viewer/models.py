@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateTimeField, FileField, FilePathField, \
-    ForeignKey, IntegerField, TextField, Model, DO_NOTHING, CASCADE, SET_NULL
+    ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL
 
 
 class Role(Model):
@@ -27,6 +27,11 @@ class Course(Model):
         return self.name
 
 
+class Attachment(Model):
+    file = FileField()
+    file_path = FilePathField()
+
+
 class Lesson(Model):
     name = CharField(max_length=128)
     description = CharField(max_length=512)
@@ -36,6 +41,7 @@ class Lesson(Model):
     published = DateTimeField()
     datetime_start = DateTimeField()
     datetime_end = DateTimeField()
+    attachment = ManyToManyField(Attachment, default=None)
 
     def __str__(self):
         return self.name
@@ -46,21 +52,18 @@ class Post(Model):
     group_id = ForeignKey(Group, on_delete=DO_NOTHING)
     content = TextField()
     published = DateTimeField
+    attachment = ManyToManyField(Attachment, default=None)
 
 
-class Attachment(Model):
-    file = FileField()
-    file_path = FilePathField()
+
+# class PostAttachment(Model):
+#     attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
+#     post_id = ForeignKey(Post, default=None, on_delete=CASCADE)
 
 
-class PostAttachment(Model):
-    attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
-    post_id = ForeignKey(Post, default=None, on_delete=CASCADE)
-
-
-class LessonAttachment(Model):
-    attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
-    lesson_id = ForeignKey(Lesson, default=None, on_delete=CASCADE)
+# class LessonAttachment(Model):
+#     attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
+#     lesson_id = ForeignKey(Lesson, default=None, on_delete=CASCADE)
 
 
 class Grade(Model):
