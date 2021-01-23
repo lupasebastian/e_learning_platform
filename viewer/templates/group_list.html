@@ -5,7 +5,7 @@
     <ul>
         {% for group in object_list %}
             <li>
-                <a href="{% url 'group_list' group.slug %}"> {{ group }}</a>
+                <a href="{% url 'group' group.slug %}"> {{ group }}</a>
             </li>
         {% endfor %}
     </ul>

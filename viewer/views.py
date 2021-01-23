@@ -1,23 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
-
-from accounts.models import UserProfile
-from .models import Post, Group
-
-<<<<<<< HEAD
-=======
-# Create your views here.
-from django.shortcuts import render
+from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, DetailView, CreateView
->>>>>>> dev
+from django.views.generic.detail import SingleObjectMixin
 
-# Create your views here.
 from accounts.models import UserProfile
-from django.views.generic.base import View
-
-from viewer.models import Course
-
+from .models import Post, Group, Course, Lesson
 from viewer.forms import CreateCourseForm
 
 
@@ -50,7 +37,7 @@ class GroupList(ListView):
     model = Group
 
 
-class GroupView(ListView):
+class GroupView(SingleObjectMixin, ListView):
     template_name = 'group.html'
     model = Group
 
@@ -62,15 +49,30 @@ class GroupView(ListView):
         context = super(GroupView, self).get_context_data(**kwargs)
         context['members'] = UserProfile.objects.filter(group_id=self.object)
         context['posts'] = Post.objects.filter(group_id=self.object)
+        context['courses'] = Course.objects.filter(group_id=self.object)
         context['group'] = self.object
         return context
 
-    # def get_queryset(self):
-    #     return Post.objects.filter(group_id=self.object)
+
+class CourseView(DetailView):
+    template_name = 'course.html'
+    model = Course
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Course.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CourseView, self).get_context_data(**kwargs)
+        context['members'] = UserProfile.objects.filter(group_id=self.object.group_id)
+        context['posts'] = Post.objects.filter(course_id=self.object)
+        context['lessons'] = Lesson.objects.filter(course_id=self.object)
+        return context
 
 
-class CourseView:
-    pass
+class LessonDetailView(DetailView):
+    template_name = 'lesson.html'
+    model = Lesson
 
 
 class JournalView:

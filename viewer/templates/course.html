@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Class {{ group }}</h1>
+    <h1>{{ Course }}</h1>
     <div class="post-display">
       <ul>
           <h3>Posts</h3>
@@ -22,14 +22,15 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="courses_display">
+    <div class="lessons_display">
         <ul>
-            <h3>Courses</h3>
-            {% for course in courses %}
+            <h3>Lessons</h3>
+            {% for lesson in lessons %}
             <l>
-                <a href="{% url 'course' course.slug %}">{{ course }}</a>
+                <a href="{% url 'lesson' lesson.slug %}">{{ lesson.name }}</a>
             </l>
             {% endfor %}
         </ul>
     </div>
+
 {% endblock %}
