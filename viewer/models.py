@@ -1,4 +1,4 @@
-from django.db import models
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
     ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL
@@ -13,21 +13,22 @@ class Role(Model):
 
 class Group(Model):
     symbol = CharField(max_length=16)
-    date_start = DateField()
-    date_end = DateField()
-    supervisor = ForeignKey(User, on_delete=DO_NOTHING)
+    date_created = DateTimeField(auto_now=True)
+    year_start = CharField(max_length=32, default=datetime.now().year)
+    year_end = CharField(null=True, blank=True, default=None, max_length=32)
+    supervisor = ForeignKey(User, null=True, on_delete=DO_NOTHING)
 
     def __str__(self):
-        return self.symbol+' '+self.date_start
+        return self.symbol + ' ' + self.year_start
 
 
 class Course(Model):
     name = CharField(max_length=128)
-    teacher = ForeignKey(User, on_delete=DO_NOTHING)
+    teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING)
     group_id = ForeignKey(Group, on_delete=CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.name + self.teacher
 
 
 class Attachment(Model):
@@ -37,26 +38,25 @@ class Attachment(Model):
 
 class Lesson(Model):
     name = CharField(max_length=128)
-    description = CharField(max_length=512)
+    description = CharField(max_length=512, blank=True, null=True)
     course_id = ForeignKey(Course, on_delete=DO_NOTHING)
-    content_type = TextField()
+    content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
-    published = DateTimeField()
+    published = DateTimeField(auto_created=True)
     datetime_start = DateTimeField()
     datetime_end = DateTimeField()
     attachment = ManyToManyField(Attachment, default=None)
 
     def __str__(self):
-        return self.name
+        return self.name + Course.name
 
 
 class Post(Model):
     user_id = ForeignKey(User, null=True, on_delete=SET_NULL)
-    group_id = ForeignKey(Group, on_delete=DO_NOTHING)
+    group_id = ForeignKey(Group, null=True, on_delete=DO_NOTHING)
     content = TextField()
-    published = DateTimeField
+    published = DateTimeField(default=datetime.now())
     attachment = ManyToManyField(Attachment, default=None)
-
 
 
 # class PostAttachment(Model):
