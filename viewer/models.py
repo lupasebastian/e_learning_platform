@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import CharField, BooleanField, DateTimeField, FileField, FilePathField, \
+from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
     ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL
 
 
@@ -13,9 +13,12 @@ class Role(Model):
 
 class Group(Model):
     symbol = CharField(max_length=16)
-    date_start = DateTimeField()
-    date_end = DateTimeField()
+    date_start = DateField()
+    date_end = DateField()
     supervisor = ForeignKey(User, on_delete=DO_NOTHING)
+
+    def __str__(self):
+        return self.symbol+' '+self.date_start
 
 
 class Course(Model):

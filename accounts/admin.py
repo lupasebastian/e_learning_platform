@@ -1,3 +1,10 @@
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
+from .models import UserProfile
 
-# Register your models here.
+#
+# class UserProfileAdmin(ModelAdmin):
+#     pass
+#
+
+admin.site.register(UserProfile)
