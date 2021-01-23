@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ Course }}</h1>
+    <div class="post-display">
+      <ul>
+          <h3>Posts</h3>
+        {% for post in posts %}
+        <l>
+          {{ post.user_id.first_name }} {{ post.user_id.last_name }}, {{ post.published }}: {{ post.content }}
+        </l>
+          {% endfor %}
+      </ul>
+    </div>
+    <div class="members_display">
+        <ul>
+            <h3>Members</h3>
+            {% for member in members %}
+            <l>
+                {{ member.user.first_name }} {{ member.user.last_name }}
+            </l>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="lessons_display">
+        <ul>
+            <h3>Lessons</h3>
+            {% for lesson in lessons %}
+            <l>
+                <a href="{% url 'lesson' lesson.slug %}">{{ lesson.name }}</a>
+            </l>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

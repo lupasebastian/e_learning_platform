@@ -1,7 +1,8 @@
-from django.db import models
+import datetime
 from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateTimeField, FileField, FilePathField, \
-    ForeignKey, IntegerField, TextField, Model, DO_NOTHING, CASCADE, SET_NULL
+    ForeignKey, IntegerField, TextField, Model, DO_NOTHING, CASCADE, SET_NULL, SlugField
+from django.utils.text import slugify
 
 from accounts.models import UserProfile
 
@@ -18,12 +19,25 @@ class Group(Model):
     date_start = DateTimeField()
     date_end = DateTimeField()
     supervisor = ForeignKey(User, on_delete=DO_NOTHING)
+    slug = SlugField(null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.symbol)
+        super(Group, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.symbol
 
 
 class Course(Model):
     name = CharField(max_length=128)
     teacher = ForeignKey(User, on_delete=DO_NOTHING,) #choices=Role.objects.all())
     group_id = ForeignKey(Group, on_delete=CASCADE)
+    slug = SlugField(null=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -38,6 +52,11 @@ class Lesson(Model):
     published = DateTimeField()
     datetime_start = DateTimeField()
     datetime_end = DateTimeField()
+    slug = SlugField(null=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Lesson, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -45,9 +64,10 @@ class Lesson(Model):
 
 class Post(Model):
     user_id = ForeignKey(User, null=True, on_delete=SET_NULL)
-    group_id = ForeignKey(Group, on_delete=DO_NOTHING)
+    group_id = ForeignKey(Group, blank=True, null=True, on_delete=DO_NOTHING)
+    course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
     content = TextField()
-    published = DateTimeField
+    published = DateTimeField()
 
 
 class Attachment(Model):
