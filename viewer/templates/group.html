@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main>
+    <h1>Klasa {{ group.id }}</h1>
+    <div class="post-display">
+      <ul>
+        {% for post in posts %}
+        <l>
+          {{ post.user_id.first_name }} {{ post.user_id.last_name }}, {{ post.published }}: {{ post.content }}
+        </l>
+      </ul>
+    </div>
+    <div>
+
+    </div>
+  </main>
+{% endblock %}

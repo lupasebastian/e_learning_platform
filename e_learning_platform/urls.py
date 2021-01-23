@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from viewer.views import WelcomePageView
+from viewer.views import WelcomePageView, GroupList, GroupView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', WelcomePageView.as_view(), name='home')
+    path('', WelcomePageView.as_view(), name='home'),
+    path('groups/', GroupList.as_view(), name='group_list'),
+    path('groups/<slug:slug>', GroupView.as_view(), name='group'),
 ]

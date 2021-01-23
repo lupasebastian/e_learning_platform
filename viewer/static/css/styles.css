@@ -44,3 +44,9 @@ body {
     background-color: #4CAF50;
     color: white;
 }
+
+.post-display {
+    position: fixed;
+    left: 130px;
+    top: 300px;
+}
