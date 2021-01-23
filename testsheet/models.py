@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db.models import CharField, BooleanField, DateTimeField,\
+from django.db.models import CharField, BooleanField, DateTimeField, \
     ForeignKey, TextField, Model, DO_NOTHING, CASCADE
 
 

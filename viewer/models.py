@@ -4,11 +4,11 @@ from django.db.models import CharField, BooleanField, DateTimeField, DateField, 
     ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL
 
 
-class Role(Model):
-    name = CharField(max_length=128)
-
-    def __str__(self):
-        return self.name
+# class Role(Model):
+#     name = CharField(max_length=128)
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Group(Model):
@@ -16,7 +16,7 @@ class Group(Model):
     date_created = DateTimeField(auto_now=True)
     year_start = CharField(max_length=32, default=datetime.now().year)
     year_end = CharField(null=True, blank=True, default=None, max_length=32)
-    supervisor = ForeignKey(User, null=True, on_delete=DO_NOTHING)
+    supervisor = ForeignKey(User, null=True, blank=True, on_delete=DO_NOTHING)
 
     def __str__(self):
         return self.symbol + ' ' + self.year_start
@@ -43,9 +43,9 @@ class Lesson(Model):
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
     published = DateTimeField(auto_created=True)
-    datetime_start = DateTimeField()
-    datetime_end = DateTimeField()
-    attachment = ManyToManyField(Attachment, default=None)
+    datetime_start = DateTimeField(blank=True)
+    datetime_end = DateTimeField(blank=True)
+    attachment = ManyToManyField(Attachment, blank=True, default=None)
 
     def __str__(self):
         return self.name + Course.name
@@ -53,10 +53,10 @@ class Lesson(Model):
 
 class Post(Model):
     user_id = ForeignKey(User, null=True, on_delete=SET_NULL)
-    group_id = ForeignKey(Group, null=True, on_delete=DO_NOTHING)
-    content = TextField()
+    group_id = ForeignKey(Group, blank=True, null=True, on_delete=DO_NOTHING)
+    content = TextField(blank=True)
     published = DateTimeField(default=datetime.now())
-    attachment = ManyToManyField(Attachment, default=None)
+    attachment = ManyToManyField(Attachment, blank=True, default=None)
 
 
 class Grade(Model):
