@@ -59,16 +59,6 @@ class Post(Model):
     attachment = ManyToManyField(Attachment, default=None)
 
 
-# class PostAttachment(Model):
-#     attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
-#     post_id = ForeignKey(Post, default=None, on_delete=CASCADE)
-
-
-# class LessonAttachment(Model):
-#     attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
-#     lesson_id = ForeignKey(Lesson, default=None, on_delete=CASCADE)
-
-
 class Grade(Model):
     value_int = IntegerField()
     grade_type = CharField(max_length=128)

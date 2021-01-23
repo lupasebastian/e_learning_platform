@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import CharField, EmailField, DateTimeField, OneToOneField, \
     ForeignKey, DO_NOTHING, CASCADE, Model
-import viewer.models
 
 
 class UserProfile(Model):
