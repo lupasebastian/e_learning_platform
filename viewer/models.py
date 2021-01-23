@@ -1,8 +1,8 @@
-import datetime
-from django.contrib.auth.models import User
-from django.db.models import CharField, BooleanField, DateTimeField, FileField, FilePathField, \
-    ForeignKey, IntegerField, TextField, Model, DO_NOTHING, CASCADE, SET_NULL, SlugField
 from django.utils.text import slugify
+from datetime import datetime
+from django.contrib.auth.models import User
+from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
+    ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField
 
 from accounts.models import UserProfile
 
@@ -31,7 +31,7 @@ class Group(Model):
 
 class Course(Model):
     name = CharField(max_length=128)
-    teacher = ForeignKey(User, on_delete=DO_NOTHING,) #choices=Role.objects.all())
+    teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING)
     group_id = ForeignKey(Group, on_delete=CASCADE)
     slug = SlugField(null=True, unique=True)
 
@@ -40,18 +40,24 @@ class Course(Model):
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.name + self.teacher
+
+
+class Attachment(Model):
+    file = FileField()
+    file_path = FilePathField()
 
 
 class Lesson(Model):
     name = CharField(max_length=128)
-    description = CharField(max_length=512)
+    description = CharField(max_length=512, blank=True, null=True)
     course_id = ForeignKey(Course, on_delete=DO_NOTHING)
-    content_type = TextField()
+    content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
-    published = DateTimeField()
+    published = DateTimeField(auto_created=True)
     datetime_start = DateTimeField()
     datetime_end = DateTimeField()
+
     slug = SlugField(null=True, unique=True)
 
     def save(self, *args, **kwargs):
@@ -59,7 +65,7 @@ class Lesson(Model):
         super(Lesson, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.name + Course.name
 
 
 class Post(Model):
