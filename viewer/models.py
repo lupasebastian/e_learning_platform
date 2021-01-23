@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateTimeField, FileField, FilePathField, \
     ForeignKey, IntegerField, TextField, Model, DO_NOTHING, CASCADE, SET_NULL
 
+from accounts.models import UserProfile
+
 
 class Role(Model):
     name = CharField(max_length=128)
@@ -20,7 +22,7 @@ class Group(Model):
 
 class Course(Model):
     name = CharField(max_length=128)
-    teacher = ForeignKey(User, on_delete=DO_NOTHING)
+    teacher = ForeignKey(User, on_delete=DO_NOTHING,) #choices=Role.objects.all())
     group_id = ForeignKey(Group, on_delete=CASCADE)
 
     def __str__(self):
