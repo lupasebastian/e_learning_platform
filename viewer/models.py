@@ -1,7 +1,10 @@
+from django.utils.text import slugify
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
-    ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL
+    ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField
+
+from accounts.models import UserProfile
 
 
 # class Role(Model):
@@ -17,18 +20,28 @@ class Group(Model):
     year_start = CharField(max_length=32, default=datetime.now().year)
     year_end = CharField(null=True, blank=True, default=None, max_length=32)
     supervisor = ForeignKey(User, null=True, blank=True, on_delete=DO_NOTHING)
+    slug = SlugField(null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.symbol)
+        super(Group, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.symbol + ' ' + self.year_start
+        return self.symbol
 
 
 class Course(Model):
     name = CharField(max_length=128)
     teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING)
     group_id = ForeignKey(Group, on_delete=CASCADE)
+    slug = SlugField(null=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + self.teacher
+        return self.name
 
 
 class Attachment(Model):
@@ -46,9 +59,14 @@ class Lesson(Model):
     datetime_start = DateTimeField(blank=True)
     datetime_end = DateTimeField(blank=True)
     attachment = ManyToManyField(Attachment, blank=True, default=None)
+    slug = SlugField(null=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Lesson, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + Course.name
+        return self.name
 
 
 class Post(Model):
@@ -57,6 +75,7 @@ class Post(Model):
     content = TextField(blank=True)
     published = DateTimeField(default=datetime.now())
     attachment = ManyToManyField(Attachment, blank=True, default=None)
+    course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
 
 
 class Grade(Model):

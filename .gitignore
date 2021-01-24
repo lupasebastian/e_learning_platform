@@ -4,3 +4,4 @@ db.sqlite3
 **/__pycache__/**
 **/__init__.py
 **/migrations/**
+vim.exe.stackdump

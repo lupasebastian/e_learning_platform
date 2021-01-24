@@ -1,4 +1,3 @@
-from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Model, OneToOneField, ForeignKey, TextField, DO_NOTHING, CASCADE
 
@@ -9,4 +8,4 @@ class UserProfile(Model):
     bio = TextField(null=True, blank=True, default='Kim jesteś, mój książę?')
 
     def __str__(self):
-        return str(self.user)
+        return self.user.first_name + " " + self.user.last_name
