@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
@@ -15,17 +16,6 @@ class WelcomePageView(TemplateView):
 class MainView(View):
     pass
 
-
-class TeacherMainView:
-    pass
-
-
-class ParentMainView:
-    pass
-
-
-class StudentDetailView:
-    pass
 
 
 class UnauthorizedView:
@@ -48,6 +38,7 @@ class GroupView(SingleObjectMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(GroupView, self).get_context_data(**kwargs)
         context['members'] = UserProfile.objects.filter(group_id=self.object)
+        # context['members'] = User.objects.filter(groups__name="student")
         context['posts'] = Post.objects.filter(group_id=self.object)
         context['courses'] = Course.objects.filter(group_id=self.object)
         context['group'] = self.object

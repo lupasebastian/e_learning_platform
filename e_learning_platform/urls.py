@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from viewer.views import WelcomePageView, GroupList, GroupView, CourseView, LessonDetailView
-
+from accounts.views import login_success
 # from viewer.models import Role, Group, Course, Lesson, Post, Attachment, PostAttachment, LessonAttachment, Grade, Attendance
 # from testsheet.models import Test, QuestionType, TestQuestion, TestTeacherAnswer, TestStudentAnswer
 # from accounts.models import UserProfile
@@ -49,5 +49,6 @@ urlpatterns = [
     path('lesson/<slug:slug>/', LessonDetailView.as_view(), name='lesson'),
     path('accounts/', include('accounts.urls')),
     path('testsheet/', include('testsheet.urls')),
-    path('viewer/', include('viewer.urls'))
+    path('viewer/', include('viewer.urls')),
+    path(r'login_success/$', login_success, name='login_success')
 ]
