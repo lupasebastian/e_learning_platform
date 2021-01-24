@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
-from django.forms import ModelForm, Select, ChoiceField
+from django.forms import ModelForm
 
-from .models import Course, Post, Lesson, Group
+from .models import Course, Post, Lesson, Group, Grade, Attendance, Attachment
 
 
 class CreateCourseForm(ModelForm):
@@ -42,4 +42,31 @@ class CreateGroupForm(ModelForm):
 
     class Meta:
         model = Group
+        fields = '__all__'
+
+
+class CreateGradeForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Grade
+        fields = '__all__'
+
+
+class CreateAttendanceForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Attendance
+        fields = '__all__'
+
+
+class CreateAttachmentForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+
+    class Meta:
+        model = Attachment
         fields = '__all__'

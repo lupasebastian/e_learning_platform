@@ -45,8 +45,9 @@ class Course(Model):
 
 
 class Attachment(Model):
-    file = FileField()
-    file_path = FilePathField()
+    # file = FileField()
+    # file_path = FilePathField()
+    pass
 
 
 class Lesson(Model):

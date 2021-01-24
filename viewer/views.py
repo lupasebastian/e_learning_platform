@@ -5,8 +5,9 @@ from django.views.generic.detail import SingleObjectMixin
 
 from accounts.models import UserProfile
 
-from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm
-from .models import Post, Group, Course, Lesson
+from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, CreateGradeForm, \
+    CreateAttendanceForm, CreateAttachmentForm
+from .models import Post, Group, Course, Lesson, Grade, Attachment, Attendance
 
 
 class WelcomePageView(TemplateView):
@@ -110,4 +111,25 @@ class CreateGroupView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Group
     form_class = CreateGroupForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateGradeView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Grade
+    form_class = CreateGradeForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateAttendanceView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Attendance
+    form_class = CreateAttendanceForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateAttachmentView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Attachment
+    form_class = CreateAttachmentForm
     success_url = reverse_lazy('main_view')
