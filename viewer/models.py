@@ -7,18 +7,19 @@ from django.db.models import CharField, BooleanField, DateTimeField, DateField, 
 from accounts.models import UserProfile
 
 
-class Role(Model):
-    name = CharField(max_length=128)
-
-    def __str__(self):
-        return self.name
+# class Role(Model):
+#     name = CharField(max_length=128)
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Group(Model):
     symbol = CharField(max_length=16)
-    date_start = DateTimeField()
-    date_end = DateTimeField()
-    supervisor = ForeignKey(User, on_delete=DO_NOTHING)
+    date_created = DateTimeField(auto_now=True)
+    year_start = CharField(max_length=32, default=datetime.now().year)
+    year_end = CharField(null=True, blank=True, default=None, max_length=32)
+    supervisor = ForeignKey(User, null=True, blank=True, on_delete=DO_NOTHING)
     slug = SlugField(null=True)
 
     def save(self, *args, **kwargs):
@@ -55,8 +56,9 @@ class Lesson(Model):
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
     published = DateTimeField(auto_created=True)
-    datetime_start = DateTimeField()
-    datetime_end = DateTimeField()
+    datetime_start = DateTimeField(blank=True)
+    datetime_end = DateTimeField(blank=True)
+    attachment = ManyToManyField(Attachment, blank=True, default=None)
     slug = SlugField(null=True, unique=True)
 
     def save(self, *args, **kwargs):
@@ -70,19 +72,10 @@ class Lesson(Model):
 class Post(Model):
     user_id = ForeignKey(User, null=True, on_delete=SET_NULL)
     group_id = ForeignKey(Group, blank=True, null=True, on_delete=DO_NOTHING)
+    content = TextField(blank=True)
+    published = DateTimeField(default=datetime.now())
+    attachment = ManyToManyField(Attachment, blank=True, default=None)
     course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
-    content = TextField()
-    published = DateTimeField()
-
-
-class PostAttachment(Model):
-    attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
-    post_id = ForeignKey(Post, default=None, on_delete=CASCADE)
-
-
-class LessonAttachment(Model):
-    attachment_id = ForeignKey(Attachment, on_delete=CASCADE)
-    lesson_id = ForeignKey(Lesson, default=None, on_delete=CASCADE)
 
 
 class Grade(Model):
