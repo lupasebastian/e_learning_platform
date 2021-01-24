@@ -88,8 +88,8 @@ class UserDetailView(DetailView):
     model = UserProfile
 
 
-class CourseCreateView(CreateView):
-    template_name = 'create_form.html'
+class CreateCourseView(CreateView):
+    template_name = 'creation_form_course_etc.html'
     model = Course
     form_class = CreateCourseForm
     success_url = reverse_lazy('main_view')

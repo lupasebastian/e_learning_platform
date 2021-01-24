@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import UserDetailView, MainView
+from .views import UserDetailView, MainView, CreateCourseView
 
 urlpatterns = [
     path('user_details/', UserDetailView.as_view(), name='user_detail_view'),
-    path('main_view/', MainView.as_view(), name='main_view')
+    path('main_view/', MainView.as_view(), name='main_view'),
+    path('create_course/', CreateCourseView.as_view(), name='create_course_view'),
 ]

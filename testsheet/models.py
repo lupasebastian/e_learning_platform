@@ -34,3 +34,4 @@ class TestTeacherAnswer(Model):
 class TestStudentAnswer(Model):
     question_id = ForeignKey(TestQuestion, on_delete=DO_NOTHING)
     answer_text = TextField()
+

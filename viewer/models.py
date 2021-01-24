@@ -31,9 +31,9 @@ class Group(Model):
 
 
 class Course(Model):
-    name = CharField(max_length=128)
-    teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING)
-    group_id = ForeignKey(Group, on_delete=CASCADE)
+    name = CharField(max_length=128, null=True, blank=True)
+    teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING, null=True)# choices=User.objects.filter(groups__name="teacher"))
+    group_id = ForeignKey(Group, on_delete=CASCADE, blank=True, null=True)
     slug = SlugField(null=True, unique=True)
 
     def save(self, *args, **kwargs):
