@@ -4,8 +4,9 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 
 from accounts.models import UserProfile
+
+from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm
 from .models import Post, Group, Course, Lesson
-from viewer.forms import CreateCourseForm
 
 
 class WelcomePageView(TemplateView):
@@ -79,10 +80,6 @@ class JournalView:
     pass
 
 
-class CreateLessonForm:
-    pass
-
-
 class UserDetailView(DetailView):
     template_name = 'user_detail_template.html'
     model = UserProfile
@@ -94,3 +91,23 @@ class CreateCourseView(CreateView):
     form_class = CreateCourseForm
     success_url = reverse_lazy('main_view')
 
+
+class CreatePostView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Post
+    form_class = CreatePostForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateLessonView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Lesson
+    form_class = CreateLessonForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateGroupView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Group
+    form_class = CreateGroupForm
+    success_url = reverse_lazy('main_view')
