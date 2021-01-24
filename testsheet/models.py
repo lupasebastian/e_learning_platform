@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateField, DateTimeField,\
     ForeignKey, TextField, Model, DO_NOTHING, CASCADE
-import viewer.models
+
 
 
 class Test(Model):

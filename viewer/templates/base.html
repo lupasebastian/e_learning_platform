@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>E-SCHOOL</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
 </head>
 
 <body>
@@ -19,9 +19,13 @@
         </section>
     </header>
 
-    <section >
-
-
-    </section>
+    <div class="title">
+        {% block site_title %}
+        {% endblock %}
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>
