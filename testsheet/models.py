@@ -1,13 +1,12 @@
 from django.contrib.auth.models import User
-from django.db.models import CharField, BooleanField, DateField, DateTimeField,\
+from django.db.models import CharField, BooleanField, DateTimeField, \
     ForeignKey, TextField, Model, DO_NOTHING, CASCADE
-
 
 
 class Test(Model):
     course_id = ForeignKey('viewer.Course', on_delete=DO_NOTHING, related_name='course_test')
     teacher = ForeignKey(User, on_delete=DO_NOTHING)
-    created = DateTimeField()
+    created = DateTimeField(auto_created=True)
     title = CharField(max_length=128)
     description = CharField(max_length=512)
 
@@ -27,7 +26,7 @@ class TestQuestion(Model):
 
 
 class TestTeacherAnswer(Model):
-    question_id = ForeignKey(TestQuestion, on_delete=CASCADE,)
+    question_id = ForeignKey(TestQuestion, on_delete=CASCADE)
     answer_text = CharField(max_length=128)
     correct = BooleanField()
 

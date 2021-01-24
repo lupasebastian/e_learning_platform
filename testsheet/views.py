@@ -15,6 +15,3 @@ class TestDetailView(PermissionRequiredMixin, DetailView):
 class CreateTestForm(PermissionRequiredMixin, CreateView):
     model = Test
     template_name = 'test.html'
-
-
-
