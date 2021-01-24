@@ -40,7 +40,7 @@ class Course(Model):
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + self.teacher
+        return self.name
 
 
 class Attachment(Model):
@@ -57,7 +57,6 @@ class Lesson(Model):
     published = DateTimeField(auto_created=True)
     datetime_start = DateTimeField()
     datetime_end = DateTimeField()
-
     slug = SlugField(null=True, unique=True)
 
     def save(self, *args, **kwargs):
@@ -65,7 +64,7 @@ class Lesson(Model):
         super(Lesson, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + Course.name
+        return self.name
 
 
 class Post(Model):
@@ -74,11 +73,6 @@ class Post(Model):
     course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
     content = TextField()
     published = DateTimeField()
-
-
-class Attachment(Model):
-    file = FileField()
-    file_path = FilePathField()
 
 
 class PostAttachment(Model):
