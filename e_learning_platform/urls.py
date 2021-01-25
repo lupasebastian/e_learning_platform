@@ -50,4 +50,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('testsheet/', include('testsheet.urls')),
     path('viewer/', include('viewer.urls')),
+    path('chat/', include('chat.urls')),
 ]

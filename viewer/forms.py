@@ -7,10 +7,7 @@ from .models import Course, Post, Lesson, Group, Grade, Attendance, Attachment
 class CreateCourseForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        queryset = User.objects.filter(groups__name="teacher")
-        users = []
-        for user in queryset:
-            users.append((user.id, f'{user.first_name} {user.last_name}'))
+        users = ((user.id, f'{user.first_name} {user.last_name}') for user in User.objects.filter(groups__name="teacher"))
         self.fields['teacher'].choices = users
 
     class Meta:
