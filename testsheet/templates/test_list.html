@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Tests</h1>
+    <ul>
+        {% for test in object_list %}
+            <li>
+                {{ test }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
