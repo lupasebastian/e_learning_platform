@@ -22,14 +22,14 @@ class Group(Model):
 
 
 class Course(Model):
-    name = CharField(max_length=128, unique=False, default=None, blank=True, null=True)
-    teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING)
-    group_id = ForeignKey(Group, on_delete=CASCADE)
+    name = CharField(max_length=128, null=True, blank=True)
+    teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING, null=True)
+    group_id = ForeignKey(Group, on_delete=CASCADE, blank=True, null=True)
     slug = SlugField(null=True, unique=True)
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.name)
-    #     super(Course, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
         if self.name:
