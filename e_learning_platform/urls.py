@@ -49,5 +49,5 @@ urlpatterns = [
     path('lesson/<slug:slug>/', LessonDetailView.as_view(), name='lesson'),
     path('accounts/', include('accounts.urls')),
     path('testsheet/', include('testsheet.urls')),
-    path('viewer/', include('viewer.urls'))
+    path('viewer/', include('viewer.urls')),
 ]

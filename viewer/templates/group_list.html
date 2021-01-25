@@ -2,11 +2,13 @@
 
 {% block content %}
   <h1>Grupy</h1>
-    <ul>
-        {% for group in object_list %}
+    {% for group in object_list %}
+        <ul class="a_list">
             <li>
                 <a href="{% url 'group' group.slug %}"> {{ group }}</a>
             </li>
-        {% endfor %}
-    </ul>
+        </ul>
+
+    {% endfor %}
+
 {% endblock %}
