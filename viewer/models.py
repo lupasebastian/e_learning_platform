@@ -4,15 +4,6 @@ from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
     ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField
 
-from accounts.models import UserProfile
-
-
-# class Role(Model):
-#     name = CharField(max_length=128)
-#
-#     def __str__(self):
-#         return self.name
-
 
 class Group(Model):
     symbol = CharField(max_length=16)
@@ -31,22 +22,26 @@ class Group(Model):
 
 
 class Course(Model):
-    name = CharField(max_length=128)
+    name = CharField(max_length=128, unique=False, default=None, blank=True, null=True)
     teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING)
     group_id = ForeignKey(Group, on_delete=CASCADE)
     slug = SlugField(null=True, unique=True)
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Course, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        if self.name:
+            return self.name + ' ' + str(self.group_id)
+        else:
+            return str('missing name')
 
 
 class Attachment(Model):
-    file = FileField()
-    file_path = FilePathField()
+    # file = FileField()
+    # file_path = FilePathField()
+    pass
 
 
 class Lesson(Model):

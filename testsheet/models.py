@@ -10,6 +10,12 @@ class Test(Model):
     title = CharField(max_length=128)
     description = CharField(max_length=512)
 
+    class Meta:
+        ordering = ['course_id']
+
+    def __str__(self):
+        return str(self.course_id) + ' ' + self.title + ' ' + self.description
+
 
 class QuestionType(Model):
     name = CharField(max_length=128)
@@ -22,7 +28,9 @@ class TestQuestion(Model):
     test_id = ForeignKey(Test, on_delete=CASCADE, related_name='question_test')
     type_id = ForeignKey(QuestionType, on_delete=DO_NOTHING, related_name='question_type')
     text_content = TextField()
-    attachment = ForeignKey('viewer.Attachment', on_delete=DO_NOTHING)
+    # attachment = ForeignKey('viewer.Attachment', blank=True, null=True, on_delete=DO_NOTHING)
+    def __str__(self):
+        return self.text_content
 
 
 class TestTeacherAnswer(Model):
