@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
@@ -18,20 +19,18 @@ class MainView(View):
     pass
 
 
-class TeacherMainView:
-    pass
+class TeacherMainView(ListView):
+    template_name = 'teacher_main.html'
+    model = Course
 
+    def get_queryset(self):
+        self.teacher = User.objects.filter(id=self.request.user.id).first()
+        return Course.objects.filter(teacher=self.teacher)
 
-class ParentMainView:
-    pass
-
-
-class StudentDetailView:
-    pass
-
-
-class UnauthorizedView:
-    pass
+    def get_context_data(self,  **kwargs):
+        context = super(TeacherMainView, self).get_context_data(**kwargs)
+        context['groups'] = Group.objects.filter(supervisor=self.request.user)
+        return context
 
 
 class GroupList(ListView):
@@ -50,6 +49,7 @@ class GroupView(SingleObjectMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(GroupView, self).get_context_data(**kwargs)
         context['members'] = UserProfile.objects.filter(group_id=self.object)
+        # context['members'] = User.objects.filter(groups__name="student")
         context['posts'] = Post.objects.filter(group_id=self.object)
         context['courses'] = Course.objects.filter(group_id=self.object)
         context['group'] = self.object

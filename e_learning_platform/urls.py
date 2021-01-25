@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from viewer.views import WelcomePageView, GroupList, GroupView, CourseView, LessonDetailView
-
+from viewer.views import WelcomePageView, GroupList, GroupView, CourseView, LessonDetailView, TeacherMainView
+from accounts.views import login_success
 # from viewer.models import Role, Group, Course, Lesson, Post, Attachment, PostAttachment, LessonAttachment, Grade, Attendance
 # from testsheet.models import Test, QuestionType, TestQuestion, TestTeacherAnswer, TestStudentAnswer
 # from accounts.models import UserProfile
@@ -43,6 +43,7 @@ from viewer.views import WelcomePageView, GroupList, GroupView, CourseView, Less
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', WelcomePageView.as_view(), name='home'),
+    path('teacher/', TeacherMainView.as_view(), name='teacher_main'),
     path('groups/', GroupList.as_view(), name='group_list'),
     path('groups/<slug:slug>/', GroupView.as_view(), name='group'),
     path('courses/<slug:slug>/', CourseView.as_view(), name='course'),
@@ -51,4 +52,5 @@ urlpatterns = [
     path('testsheet/', include('testsheet.urls')),
     path('viewer/', include('viewer.urls')),
     path('chat/', include('chat.urls')),
+    path(r'login_success/$', login_success, name='login_success')
 ]
