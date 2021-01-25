@@ -2,34 +2,41 @@
 
 {% block content %}
     <h1>Class {{ group }}</h1>
-    <div class="post-display">
-      <ul>
-          <h3>Posts</h3>
-        {% for post in posts %}
-        <l>
-          {{ post.user_id.first_name }} {{ post.user_id.last_name }}, {{ post.published }}: {{ post.content }}
-        </l>
-          {% endfor %}
-      </ul>
-    </div>
-    <div class="members_display">
-        <ul>
-            <h3>Members</h3>
-            {% for member in members %}
-            <l>
-                {{ member.user.first_name }} {{ member.user.last_name }}
-            </l>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="courses_display">
-        <ul>
-            <h3>Courses</h3>
-            {% for course in courses %}
-            <l>
-                <a href="{% url 'course' course.slug %}">{{ course }}</a>
-            </l>
-            {% endfor %}
-        </ul>
-    </div>
+        <div class="flex-container">
+            <div class="members_display">
+                <ul>
+                    <h3>Members</h3>
+                    {% for member in members %}
+                    <li>
+                        {{ member.user.first_name }} {{ member.user.last_name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+             <div class="post_display">
+                  <ul>
+                      <h3>Posts</h3>
+                        {% for post in posts %}
+                            <li>
+                              <span class="names_display">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</span><br>
+                              <span class="published_display">{{ post.published }}</span><br>
+                              <span class="content_display">{{ post.content }}</span><br>
+                            </li>
+                          {% endfor %}
+                  </ul>
+             </div>
+
+            <div class="courses_display">
+                <ul>
+                    <h3>Courses</h3>
+                    {% for course in courses %}
+                    <li>
+                        <a href="{% url 'course' course.slug %}"></a>
+                        <br><span>{{ course }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
 {% endblock %}
