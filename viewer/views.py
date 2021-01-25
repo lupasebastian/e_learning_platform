@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
@@ -17,9 +17,18 @@ class MainView(View):
     pass
 
 
+class TeacherMainView(ListView):
+    template_name = 'teacher_main.html'
+    model = Course
 
-class UnauthorizedView:
-    pass
+    def get_queryset(self):
+        self.teacher = User.objects.filter(id=self.request.user.id).first()
+        return Course.objects.filter(teacher=self.teacher)
+
+    def get_context_data(self,  **kwargs):
+        context = super(TeacherMainView, self).get_context_data(**kwargs)
+        context['groups'] = Group.objects.filter(supervisor=self.request.user)
+        return context
 
 
 class GroupList(ListView):

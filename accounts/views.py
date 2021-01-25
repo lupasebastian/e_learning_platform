@@ -24,8 +24,8 @@ class SignUpView(CreateView):
 
 def login_success(request):
     if request.user.groups.filter(name='student').exists():
-        return redirect('group_list')
-    elif request.user.groups.filter(name='teacher').extists() or request.user.groups.filter(name='supervisor').extists():
-        return redirect('home')
+        return redirect('group', request.user.profile_user.group_id.slug)
+    elif request.user.groups.filter(name='teacher').exists() or request.user.groups.filter(name='supervisor').exists():
+        return redirect('teacher_main')
     else:
-        return redirect('sign_up_view')
+        return redirect('home')
