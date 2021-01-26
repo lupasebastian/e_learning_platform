@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html' %}
 
 {% block site_title %}
     <h1>
@@ -6,10 +6,10 @@
     </h1>
 {% endblock %}
 
-{% blok content %}
-        {% for question, answer in object_list %}
+{% block content %}
+        {% for question in questions %}
             <li>
-                {{ question, answer}}
+                {{ question.question_number }}. {{ question.text_content }}
             </li>
         {% endfor %}
 {% endblock %}
