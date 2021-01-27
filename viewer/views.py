@@ -3,9 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
-
 from accounts.models import UserProfile
-
 from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, CreateGradeForm, \
     CreateAttendanceForm, CreateAttachmentForm
 from .models import Post, Group, Course, Lesson, Grade, Attachment, Attendance
