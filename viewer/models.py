@@ -34,11 +34,11 @@ class Course(Model):
     name = CharField(max_length=128)
     teacher = ForeignKey(User, blank=True, on_delete=DO_NOTHING)
     group_id = ForeignKey(Group, on_delete=CASCADE)
-    slug = SlugField(null=True, unique=True)
+    slug = SlugField(null=True, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Course, self).save(*args, **kwargs)
+        return super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
