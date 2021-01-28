@@ -3,10 +3,10 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
-
 from accounts.models import UserProfile
-from .models import Post, Group, Course, Lesson
-from viewer.forms import CreateCourseForm
+from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, CreateGradeForm, \
+    CreateAttendanceForm, CreateAttachmentForm
+from .models import Post, Group, Course, Lesson, Grade, Attachment, Attendance
 
 
 class WelcomePageView(TemplateView):
@@ -79,18 +79,55 @@ class JournalView:
     pass
 
 
-class CreateLessonForm:
-    pass
-
-
 class UserDetailView(DetailView):
     template_name = 'user_detail_template.html'
     model = UserProfile
 
 
-class CourseCreateView(CreateView):
-    template_name = 'create_form.html'
+class CreateCourseView(CreateView):
+    template_name = 'creation_form_course_etc.html'
     model = Course
     form_class = CreateCourseForm
     success_url = reverse_lazy('main_view')
 
+
+class CreatePostView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Post
+    form_class = CreatePostForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateLessonView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Lesson
+    form_class = CreateLessonForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateGroupView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Group
+    form_class = CreateGroupForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateGradeView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Grade
+    form_class = CreateGradeForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateAttendanceView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Attendance
+    form_class = CreateAttendanceForm
+    success_url = reverse_lazy('main_view')
+
+
+class CreateAttachmentView(CreateView):
+    template_name = 'creation_form_course_etc.html'
+    model = Attachment
+    form_class = CreateAttachmentForm
+    success_url = reverse_lazy('main_view')

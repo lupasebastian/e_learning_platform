@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'viewer',
     'accounts',
     'testsheet',
+    'chat',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +74,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'e_learning_platform.wsgi.application'
+
+
+ASGI_APPLICATION = 'e_learning_platform.asgi.application'
 
 
 # Database
@@ -125,4 +130,12 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join('viewer\static'), )
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        }
+    }
+}
 LOGIN_REDIRECT_URL = 'login_success'
