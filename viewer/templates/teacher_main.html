@@ -1,24 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="courses_display">
-        <ul>
-            <h3>Courses</h3>
-            {% for course in object_list %}
-            <l>
-                <a href="{% url 'course' course.slug %}">{{ course }}</a>
-            </l>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="groups_display">
-        <ul>
-            <h3>Groups</h3>
-            {% for group in groups %}
-            <l>
-                {{ group }}
-            </l>
-            {% endfor %}
-        </ul>
+    <div class="flex-container">
+
+        <div class="groups_display">
+            <ul>
+                <h3>Groups</h3>
+                {% for group in groups %}
+                <l>
+                    {{ group }}
+                </l>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="courses_display">
+            <ul>
+                <h3>Courses</h3>
+                {% for course in object_list %}
+                <l>
+                    <a href="{% url 'course' course.slug %}">{{ course }}</a>
+                </l>
+                {% endfor %}
+            </ul>
+        </div>
+
     </div>
 {% endblock %}
