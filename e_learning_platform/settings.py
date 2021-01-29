@@ -139,3 +139,4 @@ CHANNEL_LAYERS = {
     }
 }
 LOGIN_REDIRECT_URL = 'login_success'
+LOGOUT_REDIRECT_URL = 'main_view'

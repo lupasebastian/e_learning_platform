@@ -9,12 +9,8 @@ from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGro
 from .models import Post, Group, Course, Lesson, Grade, Attachment, Attendance
 
 
-class WelcomePageView(TemplateView):
+class MainView(TemplateView):
     template_name = 'home.html'
-
-
-class MainView(View):
-    pass
 
 
 class TeacherMainView(ListView):

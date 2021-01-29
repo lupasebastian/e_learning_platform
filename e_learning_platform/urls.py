@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from viewer.views import WelcomePageView, MainView
+from viewer.views import MainView
 from accounts.views import login_success
 # from viewer.models import Role, Group, Course, Lesson, Post, Attachment, PostAttachment, LessonAttachment, Grade, Attendance
 # from testsheet.models import Test, QuestionType, TestQuestion, TestTeacherAnswer, TestStudentAnswer
@@ -42,11 +42,11 @@ from accounts.views import login_success
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', WelcomePageView.as_view(), name='home'),
+    path('', MainView.as_view(), name='welcome_view'),
     path('main_view/', MainView.as_view(), name='main_view'),
     path('accounts/', include('accounts.urls')),
     path('testsheet/', include('testsheet.urls')),
     path('viewer/', include('viewer.urls')),
     path('chat/', include('chat.urls')),
-    path(r'login_success/$', login_success, name='login_success')
+    path('login_success/', login_success, name='login_success')
 ]

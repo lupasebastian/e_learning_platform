@@ -33,7 +33,7 @@ class Course(Model):
 
     def __str__(self):
         if self.name:
-            return self.name + ' ' + str(self.group_id)
+            return self.name
         else:
             return str('missing name')
 
@@ -71,6 +71,9 @@ class Post(Model):
     published = DateTimeField(default=datetime.now())
     attachment = ManyToManyField(Attachment, blank=True, default=None)
     course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
+
+    def __str__(self):
+        return f'Post in {self.course_id}' if self.group_id is None else f'Post in {self.group_id}'
 
 
 class Grade(Model):

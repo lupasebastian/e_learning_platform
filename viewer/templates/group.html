@@ -31,10 +31,7 @@
                 <ul>
                     <h3>Courses</h3>
                     {% for course in courses %}
-                    <li>
-                        <a href="{% url 'course' course.slug %}"></a>
-                        <br><span>{{ course }}</span>
-                    </li>
+                        <a href="{% url 'course' course.slug %}"><li>{{ course }}</li></a>
                     {% endfor %}
                 </ul>
             </div>
