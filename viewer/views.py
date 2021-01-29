@@ -93,6 +93,11 @@ class CreatePostView(CreateView):
     form_class = CreatePostForm
     success_url = reverse_lazy('main_view')
 
+    def get_form_kwargs(self):
+        kwargs = super(CreatePostView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 
 class CreateLessonView(CreateView):
     template_name = 'creation_form_course_etc.html'

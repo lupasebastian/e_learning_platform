@@ -138,5 +138,10 @@ CHANNEL_LAYERS = {
         }
     }
 }
+
 LOGIN_REDIRECT_URL = 'login_success'
 LOGOUT_REDIRECT_URL = 'main_view'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
