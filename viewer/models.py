@@ -45,19 +45,19 @@ class Attachment(Model):
 
 
 class Lesson(Model):
-    name = CharField(max_length=128)
-    description = CharField(max_length=512, blank=True, null=True)
+    name = CharField(max_length=128, default='lesson title')
+    description = CharField(max_length=512, blank=True, null=True, default='sneak peek')
     course_id = ForeignKey(Course, on_delete=DO_NOTHING)
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
-    published = DateTimeField(auto_created=True)
-    datetime_start = DateTimeField(blank=True)
-    datetime_end = DateTimeField(blank=True)
+    published = DateTimeField(auto_now=True, blank=True, null=True)
+    datetime_start = DateTimeField(blank=True, null=True, default=datetime.now())
+    datetime_end = DateTimeField(blank=True, null=True, default=datetime.now())
     attachment = ManyToManyField(Attachment, blank=True, default=None)
     slug = SlugField(null=True, unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = f'{self.course_id}_{slugify(self.name)}'
         super(Lesson, self).save(*args, **kwargs)
 
     def __str__(self):

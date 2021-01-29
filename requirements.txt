@@ -30,8 +30,7 @@ requests==2.25.1
 service-identity==18.1.0
 six==1.15.0
 sqlparse==0.4.1
-Twisted @ file:///C:/Users/Sebastian/PycharmProjects/e_learning/e_learning_platform/Twisted-20.3.0-cp38-cp38-win32.whl
-txaio==20.12.1
+Twisted @ file:///C:/Users/Rafal/PycharmProjects/PlatformaElearning/e_learning_platform/Twisted-20.3.0-cp39-cp39-win32
 urllib3==1.26.2
 websocket-client==0.57.0
 zope.interface==5.2.0
