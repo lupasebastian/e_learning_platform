@@ -28,11 +28,14 @@ class Course(Model):
     slug = SlugField(blank=True, unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = f'{slugify(self.name)}_{self.group_id}'.lower()
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        if self.name:
+            return self.name + ' ' + str(self.group_id)
+        else:
+            return str('missing name')
 
 
 class Attachment(Model):
