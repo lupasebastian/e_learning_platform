@@ -2,14 +2,14 @@ body {
     background: url(../images/desk.png.jpg) no-repeat center bottom fixed;
     background-size: cover;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     font-family: Verdana, serif;
 }
 
 .topnav {
     background-color: rgba(51, 51, 51, 0.3);
     overflow: hidden;
-    font-size: 30px;
+    font-size: 10px;
 }
 
 /* Style the links inside the navigation bar */
@@ -139,7 +139,7 @@ body {
 .post_display {
     color: rgb(255, 255, 255);
     background-color: rgba(51, 51, 51, 0.6);
-    width: 670px;
+    width: 475px;
     height: 450px;
     float: left;
     padding: 5px;
@@ -148,6 +148,10 @@ body {
 
 footer {
     position: fixed;
+    padding-top: 10px;
+    display: block;
+    margin-top: 10px;
+    box-sizing: border-box;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -162,7 +166,7 @@ footer .copyrights {
     float: right;
 }
 footer .enterprise {
-    font-size: 20px;
+    float: left;
+    font-size: 15px;
     font-weight: bold;
-    bottom: 0;
 }
