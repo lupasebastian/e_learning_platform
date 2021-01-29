@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from .models import Course, Post, Lesson, Group, Grade, Attendance, Attachment
+from .models import Course, Post, Lesson, Group, Grade, Attendance, \
+    AttachmentPost, AttachmentLesson
 
 
 class CreateCourseForm(ModelForm):
@@ -45,7 +46,6 @@ class CreateLessonForm(ModelForm):
     class Meta:
         model = Lesson
         fields = '__all__'
-        exclude = ('published', )
 
 
 class CreateGroupForm(ModelForm):
@@ -101,10 +101,15 @@ class CreateAttendanceForm(ModelForm):
         fields = '__all__'
 
 
-class CreateAttachmentForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
+class CreateAttachmentPostForm(ModelForm):
 
     class Meta:
-        model = Attachment
+        model = AttachmentPost
+        fields = '__all__'
+
+
+class CreateAttachmentLessonForm(ModelForm):
+
+    class Meta:
+        model = AttachmentLesson
         fields = '__all__'
