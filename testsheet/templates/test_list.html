@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Tests</h1>
-    <ul>
-        {% for test in object_list %}
-            <li>
-                {{ test }}
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="a_list">
+        <ul>
+            {% for test in object_list %}
+                <li>
+                    <a href="{% url 'test_sheet' test.pk %}"> {{ test }} </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
 
 

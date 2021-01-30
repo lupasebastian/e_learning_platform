@@ -3,17 +3,16 @@
 {% block content %}
     <div class="flex-container">
 
-        <div class="groups_display">
+        <div class="a_list">
             <ul>
                 <h3>Supervising Group</h3>
                 {% for group in supervising_groups %}
                 <l>
                     {{ group }}
-                </l>
+                </li>
                 {% endfor %}
             </ul>
         </div>
-
         <div class="groups_display">
             <ul>
                 <h3>Teaching Groups</h3>
@@ -24,14 +23,13 @@
                 {% endfor %}
             </ul>
         </div>
-
-        <div class="courses_display">
+        <div class="a_list">
             <ul>
                 <h3>Courses</h3>
                 {% for course in object_list %}
-                <l>
+                <li>
                     <a href="{% url 'course' course.slug %}">{{ course }}</a>
-                </l>
+                </li>
                 {% endfor %}
             </ul>
         </div>
