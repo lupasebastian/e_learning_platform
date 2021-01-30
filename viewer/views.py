@@ -6,11 +6,11 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 
 from accounts.models import UserProfile
-from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, CreateGradeForm, \
-    CreateAttendanceForm, CreateAttachmentLessonForm, CreateAttachmentPostForm
+from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, \
+    CreateAttachmentLessonForm, CreateAttachmentPostForm
 from django.contrib.auth.models import User
-from .models import Post, Group, Course, Lesson, Grade, Attendance, Schedule, \
-    AttachmentPost, Attendance, AttachmentLesson
+from .models import Post, Group, Course, Lesson, Schedule, \
+    AttachmentPost, AttachmentLesson
 
 
 class MainView(TemplateView):
@@ -124,7 +124,7 @@ class CreatePostView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Post
     form_class = CreatePostForm
-    success_url = reverse_lazy('create_attachment_post')
+    success_url = reverse_lazy('attachment_post_upload')
 
     def get_form_kwargs(self):
         kwargs = super(CreatePostView, self).get_form_kwargs()
@@ -136,7 +136,7 @@ class CreateLessonView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Lesson
     form_class = CreateLessonForm
-    success_url = reverse_lazy('create_attachment_lesson')
+    success_url = reverse_lazy('attachment_lesson_upload')
 
 
 class CreateGroupView(CreateView):
@@ -146,43 +146,15 @@ class CreateGroupView(CreateView):
     success_url = reverse_lazy('main_view')
 
 
-class CreateGradeView(CreateView):
-    template_name = 'creation_form_course_etc.html'
-    model = Grade
-    form_class = CreateGradeForm
-    success_url = reverse_lazy('main_view')
-
-
-class CreateAttendanceView(CreateView):
-    template_name = 'creation_form_course_etc.html'
-    model = Attendance
-    form_class = CreateAttendanceForm
-    success_url = reverse_lazy('main_view')
-
-
-class CreateAttachmentLessonView(CreateView):
-    template_name = 'creation_form_course_etc.html'
-    model = AttachmentPost
-    form_class = CreateAttachmentLessonForm
-    success_url = reverse_lazy('attachment_lesson_upload')
-
-
-class CreateAttachmentPostView(CreateView):
-    template_name = 'creation_form_course_etc.html'
-    model = AttachmentLesson
-    form_class = CreateAttachmentPostForm
-    success_url = reverse_lazy('attachment_post_upload')
-
-
 def attachment_lesson_upload(request):
     if request.method == 'POST':
         form = CreateAttachmentLessonForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('main_view')
     else:
         form = CreateAttachmentLessonForm()
-    return render(request, 'upload_successful.html', {
+    return render(request, 'upload_form_attachment.html', {
         'form': form
     })
 
@@ -192,9 +164,9 @@ def attachment_post_upload(request):
         form = CreateAttachmentPostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('main_view')
     else:
-        form = CreateAttachmentLessonForm()
-    return render(request, 'upload_successful.html', {
+        form = CreateAttachmentPostForm()
+    return render(request, 'upload_form_attachment.html', {
         'form': form
     })

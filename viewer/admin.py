@@ -1,14 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Group, Course, Lesson, Post, Attendance, Grade
+from .models import Group, Course, Lesson, Post
 
 
 admin.site.register(Group)
 admin.site.register(Course)
 admin.site.register(Lesson)
 admin.site.register(Post)
-admin.site.register(Attendance)
-admin.site.register(Grade)
 
 # Próbuje tu zrobić coś co sprawi, że przy tworzeniu studentgrupy w polu supervisor nie będą pojawiali się
 # studenci do wyboru, czyli ograniczyć wybór do teachera i supervisora.
