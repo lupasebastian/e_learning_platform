@@ -7,12 +7,10 @@ from django.views.generic.detail import SingleObjectMixin
 
 from accounts.models import UserProfile
 from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, CreateGradeForm, \
-    CreateAttendanceForm, CreateAttachmentForm
+    CreateAttendanceForm, CreateAttachmentLessonForm, CreateAttachmentPostForm
 from django.contrib.auth.models import User
-from .models import Post, Group, Course, Lesson, Grade, Attachment, Attendance, Schedule, \
-    AttachmentPost, Attendance, AttachmentLesson, CreateAttendanceForm, CreateAttachmentLessonForm, \
-    CreateAttachmentPostForm
-
+from .models import Post, Group, Course, Lesson, Grade, Attendance, Schedule, \
+    AttachmentPost, Attendance, AttachmentLesson
 
 
 class MainView(TemplateView):

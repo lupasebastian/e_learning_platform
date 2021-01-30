@@ -6,7 +6,6 @@ from django.db.models import CharField, BooleanField, DateTimeField, DateField, 
     ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField, TimeField
 
 
-
 class Group(Model):
     symbol = CharField(max_length=16)
     date_created = DateTimeField(auto_now=True)
@@ -46,7 +45,7 @@ class Lesson(Model):
     course_id = ForeignKey(Course, on_delete=DO_NOTHING)
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
-    published = DateTimeField(auto_created=True, default=datetime.now())
+    published = DateTimeField(auto_created=True, default=datetime.datetime.now())
     datetime_start = DateTimeField(blank=True)
     datetime_end = DateTimeField(blank=True)
     slug = SlugField(null=True, unique=True)
