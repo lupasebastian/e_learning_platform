@@ -11,7 +11,6 @@ class CreateTestForm(ModelForm):
         model = Test
         fields = '__all__'
 
-
 class QuestionCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,7 +19,6 @@ class QuestionCreateForm(ModelForm):
         model = TestQuestion
         fields = '__all__'
 
-
 class AnswerCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -28,8 +26,6 @@ class AnswerCreateForm(ModelForm):
     class Meta:
         model = TestTeacherAnswer
         fields = '__all__'
-
-
 
 # class CreateAttachmentForm(ModelForm):
 #     def __init__(self, *args, **kwargs):
