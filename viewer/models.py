@@ -2,8 +2,8 @@ from django.utils.text import slugify
 import datetime
 from django.contrib.auth.models import User
 
-from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, ImageField, \
-    ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField, TimeField
+from django.db.models import CharField, DateTimeField, FileField, ImageField, \
+    ForeignKey, TextField, Model, DO_NOTHING, CASCADE, SET_NULL, SlugField, TimeField
 
 
 class Group(Model):
@@ -69,10 +69,10 @@ class Post(Model):
     group_id = ForeignKey(Group, blank=True, null=True, on_delete=DO_NOTHING)
     content = TextField(blank=True)
     published = DateTimeField(default=datetime.datetime.now())
-    course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
+    # course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
 
     def __str__(self):
-        return f'Post in {self.course_id}' if self.group_id is None else f'Post in {self.group_id}'
+        return f'Post in {self.group_id}' #f'Post in {self.course_id}' if self.group_id is None else
 
 
 class AttachmentPost(Model):

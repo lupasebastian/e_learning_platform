@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from .models import Course, Post, Lesson, Group, \
-    AttachmentPost, AttachmentLesson
+from .models import Course, Post, Lesson, Group, AttachmentLesson
 from accounts.models import UserProfile
 
 
@@ -19,6 +18,7 @@ class CreateCourseForm(ModelForm):
     class Meta:
         model = Course
         fields = '__all__'
+        exclude = ('slug', )
 
 
 class CreatePostForm(ModelForm):
@@ -30,7 +30,7 @@ class CreatePostForm(ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
-        exclude = ('user_id', 'published', 'group_id')
+        exclude = ('user_id', 'published', 'group_id', 'slug', )
 
 
 class CreateLessonForm(ModelForm):
@@ -48,6 +48,7 @@ class CreateLessonForm(ModelForm):
     class Meta:
         model = Lesson
         fields = '__all__'
+        exclude = ('slug',)
 
 
 class CreateGroupForm(ModelForm):
@@ -61,13 +62,7 @@ class CreateGroupForm(ModelForm):
     class Meta:
         model = Group
         fields = '__all__'
-
-
-class CreateAttachmentPostForm(ModelForm):
-
-    class Meta:
-        model = AttachmentPost
-        fields = '__all__'
+        exclude = ('slug',)
 
 
 class CreateAttachmentLessonForm(ModelForm):
