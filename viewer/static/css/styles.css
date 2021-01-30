@@ -152,7 +152,7 @@ body {
 }
 
 footer {
-    position: relative;
+    position: absolute;
     padding-top: 10px;
     display: block;
     margin-top: 10px;

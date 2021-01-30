@@ -2,7 +2,7 @@ from django.utils.text import slugify
 import datetime
 from django.contrib.auth.models import User
 
-from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
+from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, ImageField, \
     ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField, TimeField
 
 
@@ -59,8 +59,8 @@ class Lesson(Model):
 
 
 class AttachmentLesson(Model):
-    file = FileField(upload_to='lessons/', null=True)
-    # image = ImageField(upload_to='images/', null=True)
+    file = FileField(upload_to='lessons/', null=True, blank=True)
+    image = ImageField(upload_to='images/', null=True, blank=True)
     lesson_id = ForeignKey(Lesson, on_delete=DO_NOTHING, default=None)
 
 
@@ -76,27 +76,9 @@ class Post(Model):
 
 
 class AttachmentPost(Model):
-    file = FileField(upload_to='posts/', null=True)
-    # image = ImageField(upload_to='images/', null=True)
+    file = FileField(upload_to='posts/', null=True, blank=True)
+    image = ImageField(upload_to='images/', null=True, blank=True)
     post_id = ForeignKey(Post, on_delete=DO_NOTHING, default=None)
-
-
-class Grade(Model):
-    value_int = IntegerField()
-    grade_type = CharField(max_length=128)
-    course_id = ForeignKey(Course, on_delete=DO_NOTHING)
-    student_id = ForeignKey(User, on_delete=CASCADE, related_name='grade_student')
-    teacher_id = ForeignKey(User, on_delete=DO_NOTHING, related_name='grade_teacher')
-    date = DateTimeField()
-    semester = BooleanField()
-
-
-class Attendance(Model):
-    present = BooleanField()
-    date = DateTimeField()
-    student_id = ForeignKey(User, on_delete=CASCADE, related_name='attendance_student')
-    teacher_id = ForeignKey(User, null=True, on_delete=DO_NOTHING, related_name='attendance_teacher')
-    lesson_id = ForeignKey(Lesson, null=True, on_delete=SET_NULL)
 
 
 class Schedule(Model):
