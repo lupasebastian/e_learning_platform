@@ -27,6 +27,7 @@ from django.conf.urls.static import static
 # from viewer.models import Role, Group, Course, Lesson, Post, Attachment, PostAttachment, LessonAttachment, Grade, Attendance
 # from testsheet.models import Test, QuestionType, TestQuestion, TestTeacherAnswer, TestStudentAnswer
 # from accounts.models import UserProfile
+from viewer.models import AttachmentPost, AttachmentLesson
 
 # admin.site.register(Role)
 # admin.site.register(Group)
@@ -34,8 +35,8 @@ from django.conf.urls.static import static
 # admin.site.register(Lesson)
 # admin.site.register(Post)
 # admin.site.register(Attachment)
-# admin.site.register(PostAttachment)
-# admin.site.register(LessonAttachment)
+admin.site.register(AttachmentPost)
+admin.site.register(AttachmentLesson)
 # admin.site.register(Grade)
 # admin.site.register(Attendance)
 # admin.site.register(Test)

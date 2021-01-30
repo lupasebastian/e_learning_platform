@@ -98,6 +98,15 @@ class LessonDetailView(DetailView):
     template_name = 'lesson.html'
     model = Lesson
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Lesson.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(LessonDetailView, self).get_context_data(**kwargs)
+        context['attachments'] = AttachmentLesson.objects.filter(lesson_id=self.object)
+        return context
+
 
 class JournalView:
     pass
@@ -137,6 +146,7 @@ class CreateLessonView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Lesson
     form_class = CreateLessonForm
+    slug_url_kwarg = 'slug'
     success_url = reverse_lazy('attachment_lesson_upload')
 
 
@@ -152,7 +162,7 @@ def attachment_lesson_upload(request):
         form = CreateAttachmentLessonForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('main_view')
+            return redirect('teacher_main')
     else:
         form = CreateAttachmentLessonForm()
     return render(request, 'upload_form_attachment.html', {

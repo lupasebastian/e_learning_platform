@@ -35,7 +35,7 @@ class Course(Model):
 
     def __str__(self):
         if self.name:
-            return self.name
+            return f'{self.name} {self.group_id}'
         else:
             return str('missing name')
 
@@ -49,10 +49,10 @@ class Lesson(Model):
     published = DateTimeField(auto_created=True, default=datetime.datetime.now())
     datetime_start = DateTimeField(blank=True)
     datetime_end = DateTimeField(blank=True)
-    slug = SlugField(null=True, unique=True)
+    slug = SlugField(null=True, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
-        self.slug = f'{self.course_id}_{slugify(self.name)}'
+        self.slug = f'{slugify(self.course_id)}_{slugify(self.name)}_{random.randint(0,1000)}'.lower()
         super(Lesson, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -60,9 +60,9 @@ class Lesson(Model):
 
 
 class AttachmentLesson(Model):
+    name = CharField(max_length=128)
     file = FileField(upload_to='lessons/', null=True, blank=True)
-    image = ImageField(upload_to='images/', null=True, blank=True)
-    lesson_id = ForeignKey(Lesson, on_delete=DO_NOTHING, default=None)
+    lesson_id = ForeignKey(Lesson, on_delete=CASCADE, default=None)
 
 
 class Post(Model):

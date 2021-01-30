@@ -2,7 +2,14 @@
 
 {% block content %}
   <h1>{{ lesson.name }}</h1>
+    <p>Description:</p>
     <p class="description">{{ lesson.description }}</p>
+    <p>Content_type:</p>
     <p class="description">{{ lesson.content_type }}</p>
-    <!-- Maybe list of attachments? -->
+    <p>Załączniki:</p>
+    {% for attachment in attachments %}
+      <li>
+        <a href="{{ MEDIA_URL }}{{ attachment.file }}">{{ attachment.name }}</a>
+      </li>
+    {% endfor %}
 {% endblock %}
