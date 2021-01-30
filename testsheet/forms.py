@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from .models import Test, TestQuestion, TestStudentAnswer, TestTeacherAnswer
-from viewer.models import Attachment
+# from viewer.models import Attachment
 
 
 class CreateTestForm(ModelForm):
@@ -32,7 +32,7 @@ class CreateAttachmentForm(ModelForm):
         super().__init__(self, *args, **kwargs)
 
     class Meta:
-        model = Attachment
+        # model = Attachment
         fields = '__all__'
 
 class FillTestForm(ModelForm):

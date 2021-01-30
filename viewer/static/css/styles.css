@@ -146,8 +146,13 @@ body {
     overflow: auto;
 }
 
+.description {
+    color: rgb(0, 0, 0);
+    background-color: rgba(231, 228, 228, 0.7);
+}
+
 footer {
-    position: fixed;
+    position: relative;
     padding-top: 10px;
     display: block;
     margin-top: 10px;
