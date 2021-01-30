@@ -1,8 +1,10 @@
 from django.utils.text import slugify
 import datetime
 from django.contrib.auth.models import User
+
 from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
     ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField, TimeField
+
 
 
 class Group(Model):
@@ -38,22 +40,15 @@ class Course(Model):
             return str('missing name')
 
 
-class Attachment(Model):
-    # file = FileField()
-    # file_path = FilePathField()
-    pass
-
-
 class Lesson(Model):
     name = CharField(max_length=128)
     description = CharField(max_length=512, blank=True, null=True)
     course_id = ForeignKey(Course, on_delete=DO_NOTHING)
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
-    published = DateTimeField(auto_created=True)
+    published = DateTimeField(auto_created=True, default=datetime.now())
     datetime_start = DateTimeField(blank=True)
     datetime_end = DateTimeField(blank=True)
-    attachment = ManyToManyField(Attachment, blank=True, default=None)
     slug = SlugField(null=True, unique=True)
 
     def save(self, *args, **kwargs):
@@ -64,16 +59,27 @@ class Lesson(Model):
         return self.name
 
 
+class AttachmentLesson(Model):
+    file = FileField(upload_to='lessons/', null=True)
+    # image = ImageField(upload_to='images/', null=True)
+    lesson_id = ForeignKey(Lesson, on_delete=DO_NOTHING, default=None)
+
+
 class Post(Model):
     user_id = ForeignKey(User, null=True, on_delete=SET_NULL)
     group_id = ForeignKey(Group, blank=True, null=True, on_delete=DO_NOTHING)
     content = TextField(blank=True)
     published = DateTimeField(default=datetime.datetime.now())
-    attachment = ManyToManyField(Attachment, blank=True, default=None)
     course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
 
     def __str__(self):
         return f'Post in {self.course_id}' if self.group_id is None else f'Post in {self.group_id}'
+
+
+class AttachmentPost(Model):
+    file = FileField(upload_to='posts/', null=True)
+    # image = ImageField(upload_to='images/', null=True)
+    post_id = ForeignKey(Post, on_delete=DO_NOTHING, default=None)
 
 
 class Grade(Model):
