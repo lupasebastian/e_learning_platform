@@ -40,8 +40,8 @@ class Course(Model):
 
 
 class Lesson(Model):
-    name = CharField(max_length=128)
-    description = CharField(max_length=512, blank=True, null=True)
+    name = CharField(max_length=128, default='lesson title')
+    description = CharField(max_length=512, blank=True, null=True, default='sneak peek')
     course_id = ForeignKey(Course, on_delete=DO_NOTHING)
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
@@ -51,7 +51,7 @@ class Lesson(Model):
     slug = SlugField(null=True, unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = f'{self.course_id}_{slugify(self.name)}'
         super(Lesson, self).save(*args, **kwargs)
 
     def __str__(self):

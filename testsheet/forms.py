@@ -29,7 +29,6 @@ class AnswerCreateForm(ModelForm):
         model = TestTeacherAnswer
         fields = '__all__'
 
-
 # class CreateAttachmentForm(ModelForm):
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(self, *args, **kwargs)

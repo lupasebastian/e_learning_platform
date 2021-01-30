@@ -5,12 +5,11 @@ from django.contrib.auth.backends import Permission
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.views.generic import View, CreateView, DetailView, ListView, TemplateView
+from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.list import MultipleObjectMixin
 
-from .models import Test, QuestionType, QuestionType, TestQuestion,TestTeacherAnswer, TestStudentAnswer
-from .forms import CreateTestForm
+from .models import Test, TestQuestion, TestTeacherAnswer
+from .forms import CreateTestForm, QuestionCreateForm, AnswerCreateForm, FillTestForm
 
 
 class TestListView(ListView):
@@ -21,6 +20,7 @@ class TestListView(ListView):
 
 class QuestionView(SingleObjectMixin, ListView):
 
+    paginate_by = 2
     model = TestQuestion
     template_name = 'testsheet.html'
 
@@ -34,21 +34,21 @@ class QuestionView(SingleObjectMixin, ListView):
         context['answers'] = TestTeacherAnswer.objects.filter(question_id__test_id=self.object.id)
         return context
 
-
-class AnswerView(SingleObjectMixin, ListView):
+# AnswerView był testowy, można go usunąć.
+class AnswerView(ListView):
 
     model = TestTeacherAnswer
-    template_name = 'testsheet.html'
+    template_name = 'answers.html'
     context_object_name = 'answers'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=TestTeacherAnswer.objects.all())
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(AnswerView, self).get_context_data(**kwargs)
-        context['answers'] = TestTeacherAnswer.objects.filter(test_id=self.object.test_id)
-        return context
+    #
+    # def get(self, request, *args, **kwargs):
+    #     self.object = self.get_object(queryset=TestTeacherAnswer.objects.all())
+    #     return super().get(request, *args, **kwargs)
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super(AnswerView, self).get_context_data(**kwargs)
+    #     context['answers'] = TestTeacherAnswer.objects.filter(question_id=self.object.question_id)
+    #     return context
 
 
 class CreateTestView(CreateView):
@@ -57,8 +57,20 @@ class CreateTestView(CreateView):
     template_name = 'test_add.html'
 
 
+class CreateQuestionView(CreateView):
+    form_class = QuestionCreateForm
+    model = TestQuestion
+    template_name = 'test_add.html'
+
+
+class CreateAnswerView(CreateView):
+    form_class = AnswerCreateForm
+    model = TestTeacherAnswer
+    template_name = 'test_add.html'
+
+
 class TestFillView(DetailView):
-    form_class = CreateTestForm
+    form_class = FillTestForm
     template_name = 'test_fill.html'
     model = Test
 
