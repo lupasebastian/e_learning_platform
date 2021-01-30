@@ -1,27 +1,18 @@
-from urllib import request
-
-from django.shortcuts import render
-from django.contrib.auth.backends import Permission
-from django.contrib.auth.decorators import login_required, permission_required
-from django.utils.decorators import method_decorator
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
-
 from .models import Test, TestQuestion, TestTeacherAnswer
 from .forms import CreateTestForm, QuestionCreateForm, AnswerCreateForm, FillTestForm
-
 
 class TestListView(ListView):
 
     model = Test
     template_name = 'test_list.html'
 
-
 class QuestionView(SingleObjectMixin, ListView):
 
-    paginate_by = 2
     model = TestQuestion
+    paginate_by = 1
+    paginate_orphans = True
     template_name = 'testsheet.html'
 
     def get(self, request, *args, **kwargs):
@@ -33,6 +24,7 @@ class QuestionView(SingleObjectMixin, ListView):
         context['questions'] = TestQuestion.objects.filter(test_id=self.object.id)
         context['answers'] = TestTeacherAnswer.objects.filter(question_id__test_id=self.object.id)
         return context
+
 
 # AnswerView był testowy, można go usunąć.
 class AnswerView(ListView):

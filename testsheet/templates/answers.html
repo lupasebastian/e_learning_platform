@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block site_title %}
+    <h1>
+        Answers
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <div class="flex-container">
+            {% for answer in answers %}
+                <ul>
+                    {{ answer.question_id.id }}
+                </ul>
+            {% endfor %}
+    </div>
+{% endblock %}
+
