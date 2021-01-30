@@ -44,7 +44,7 @@ from django.conf.urls.static import static
 # admin.site.register(TestTeacherAnswer)
 # admin.site.register(TestStudentAnswer)
 # admin.site.register(UserProfile)
-admin.site.register(Schedule)
+# admin.site.register(Schedule)
 
 
 urlpatterns = [
