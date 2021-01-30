@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
-from django.db.models import Model, OneToOneField, ForeignKey, TextField, DO_NOTHING, CASCADE
+from django.db.models import Model, OneToOneField, ForeignKey, TextField, DO_NOTHING, CASCADE, ImageField
+from django.utils.text import slugify
 
 
 class UserProfile(Model):
     user = OneToOneField(User, on_delete=CASCADE, related_name='profile_user', default=None, blank=True)
     group_id = ForeignKey('viewer.Group', default=None, blank=True, null=True, on_delete=DO_NOTHING, related_name='user_group')
     bio = TextField(null=True, blank=True, default='Kim jesteś, mój książę?')
+    avatar = ImageField(upload_to='avatar_img', default='default_avatar.png')
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name

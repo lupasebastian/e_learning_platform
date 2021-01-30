@@ -1,14 +1,15 @@
 from django.utils.text import slugify
-from datetime import datetime
+import datetime
 from django.contrib.auth.models import User
-from django.db.models import CharField, BooleanField, DateTimeField, FileField, ImageField, \
-    ForeignKey, IntegerField, TextField, Model, DO_NOTHING, CASCADE, SET_NULL, SlugField
+
+from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, FilePathField, \
+    ForeignKey, IntegerField, TextField, Model, ManyToManyField, DO_NOTHING, CASCADE, SET_NULL, SlugField, TimeField
 
 
 class Group(Model):
     symbol = CharField(max_length=16)
     date_created = DateTimeField(auto_now=True)
-    year_start = CharField(max_length=32, default=datetime.now().year)
+    year_start = CharField(max_length=32, default=datetime.datetime.now().year)
     year_end = CharField(null=True, blank=True, default=None, max_length=32)
     supervisor = ForeignKey(User, null=True, blank=True, on_delete=DO_NOTHING)
     slug = SlugField(null=True)
@@ -33,7 +34,7 @@ class Course(Model):
 
     def __str__(self):
         if self.name:
-            return self.name + ' ' + str(self.group_id)
+            return self.name
         else:
             return str('missing name')
 
@@ -44,7 +45,7 @@ class Lesson(Model):
     course_id = ForeignKey(Course, on_delete=DO_NOTHING)
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
-    published = DateTimeField(auto_created=True, default=datetime.now())
+    published = DateTimeField(auto_created=True, default=datetime.datetime.now())
     datetime_start = DateTimeField(blank=True)
     datetime_end = DateTimeField(blank=True)
     slug = SlugField(null=True, unique=True)
@@ -67,8 +68,11 @@ class Post(Model):
     user_id = ForeignKey(User, null=True, on_delete=SET_NULL)
     group_id = ForeignKey(Group, blank=True, null=True, on_delete=DO_NOTHING)
     content = TextField(blank=True)
-    published = DateTimeField(default=datetime.now())
+    published = DateTimeField(default=datetime.datetime.now())
     course_id = ForeignKey(Course, blank=True, null=True, on_delete=DO_NOTHING)
+
+    def __str__(self):
+        return f'Post in {self.course_id}' if self.group_id is None else f'Post in {self.group_id}'
 
 
 class AttachmentPost(Model):
@@ -93,3 +97,30 @@ class Attendance(Model):
     student_id = ForeignKey(User, on_delete=CASCADE, related_name='attendance_student')
     teacher_id = ForeignKey(User, null=True, on_delete=DO_NOTHING, related_name='attendance_teacher')
     lesson_id = ForeignKey(Lesson, null=True, on_delete=SET_NULL)
+
+
+class Schedule(Model):
+    WEEK = (
+        ('monday', 'MONDAY'),
+        ('tuesday', 'TUESDAY'),
+        ('wednesday', 'WEDNESDAY'),
+        ('thursday', 'THURSDAY'),
+        ('friday', 'FRIDAY'),
+    )
+    TIMES = [
+        (datetime.time(hour=8, minute=0), '08:00'),
+        (datetime.time(hour=9, minute=0), '09:00'),
+        (datetime.time(hour=10, minute=0), '10:00'),
+        (datetime.time(hour=11, minute=0), '11:00'),
+        (datetime.time(hour=12, minute=0), '12:00'),
+        (datetime.time(hour=13, minute=0), '13:00'),
+        (datetime.time(hour=14, minute=0), '14:00'),
+        (datetime.time(hour=15, minute=0), '15:00'),
+    ]
+    course_id = ForeignKey(Course, on_delete=CASCADE)
+    day_of_week = CharField(max_length=20, choices=WEEK, default='monday')
+    start_time = TimeField(blank=False, choices=TIMES)
+    end_time = TimeField(blank=True)
+
+    def __str__(self):
+        return f'{self.course_id.name} {self.course_id.teacher.first_name} {self.course_id.teacher.last_name} {self.course_id.group_id.symbol}'
