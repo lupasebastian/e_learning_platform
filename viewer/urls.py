@@ -1,5 +1,5 @@
+from django.conf.urls.static import static
 from django.urls import path
-
 
 from .views import UserDetailView, MainView, CreateCourseView, CreatePostView, CreateLessonView, \
     CreateGroupView, CreateGradeView, CreateAttendanceView, CreateAttachmentView, TeacherMainView, \
@@ -8,6 +8,7 @@ from .views import UserDetailView, MainView, CreateCourseView, CreatePostView, C
 urlpatterns = [
     path('user_details/', UserDetailView.as_view(), name='user_detail_view'),
     path('main_view/', MainView.as_view(), name='main_view'),
+    path('profile/<int:pk>/', UserDetailView.as_view(), name='profile'),
     path('teacher/', TeacherMainView.as_view(), name='teacher_main'),
     path('groups/', GroupList.as_view(), name='group_list'),
     path('groups/<slug:slug>/', GroupView.as_view(), name='group'),

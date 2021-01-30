@@ -13,11 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from viewer.views import MainView
+from accounts.views import login_success
+from viewer.models import Schedule
+
 from django.contrib import admin
 from django.urls import path, include
 
-from viewer.views import MainView
-from accounts.views import login_success
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 # from viewer.models import Role, Group, Course, Lesson, Post, Attachment, PostAttachment, LessonAttachment, Grade, Attendance
 # from testsheet.models import Test, QuestionType, TestQuestion, TestTeacherAnswer, TestStudentAnswer
 # from accounts.models import UserProfile
@@ -38,6 +44,7 @@ from accounts.views import login_success
 # admin.site.register(TestTeacherAnswer)
 # admin.site.register(TestStudentAnswer)
 # admin.site.register(UserProfile)
+admin.site.register(Schedule)
 
 
 urlpatterns = [
@@ -49,4 +56,4 @@ urlpatterns = [
     path('viewer/', include('viewer.urls')),
     path('chat/', include('chat.urls')),
     path('login_success/', login_success, name='login_success')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

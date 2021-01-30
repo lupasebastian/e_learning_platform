@@ -8,7 +8,7 @@
                     <h3>Members</h3>
                     {% for member in members %}
                     <li>
-                        {{ member.user.first_name }} {{ member.user.last_name }}
+                        <a href="{% url 'profile' member.id %}">{{ member.user.first_name }} {{ member.user.last_name }}</a>
                     </li>
                     {% endfor %}
                 </ul>
@@ -36,4 +36,15 @@
                 </ul>
             </div>
         </div>
+    <table border="1">
+        <tbody>
+        {% for row in schedule %}
+        <tr>
+            {% for col in row %}
+            <td>{{ col }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
