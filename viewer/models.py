@@ -43,7 +43,7 @@ class Course(Model):
 class Lesson(Model):
     name = CharField(max_length=128, default='lesson title')
     description = CharField(max_length=512, blank=True, null=True, default='sneak peek')
-    course_id = ForeignKey(Course, on_delete=DO_NOTHING)
+    course_id = ForeignKey(Course, on_delete=CASCADE)
     content_type = TextField(blank=True)
     author = ForeignKey(User, on_delete=DO_NOTHING)
     published = DateTimeField(auto_created=True, default=datetime.datetime.now())

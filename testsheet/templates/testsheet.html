@@ -19,6 +19,17 @@
             <br>
         {% endfor %}
     </div>
+    <div>
+        {% if user.groups.all.0.name == "teacher" %}
+            <form action="{% url 'add_question' %}">
+                <input type="submit" value="Add another question">
+            </form>
+            <form action="{% url 'add_answer' %}">
+                <input type="submit" value="Add another answer">
+            </form>
+        {% endif %}
+    </div>
+
 
     <!-- <div class="pagination">
         <span class="step-links"><br>

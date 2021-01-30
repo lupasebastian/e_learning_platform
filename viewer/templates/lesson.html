@@ -12,4 +12,7 @@
         <a href="{{ MEDIA_URL }}{{ attachment.file }}">{{ attachment.name }}</a>
       </li>
     {% endfor %}
+    <form action="{% url 'attachment_lesson_upload' %}">
+      <input type="submit" value="Add attachment">
+    </form>
 {% endblock %}

@@ -12,6 +12,9 @@
                     </li>
                     {% endfor %}
                 </ul>
+                <form action="{% url 'chat_room_view' 'bhgrtdvf' %}" target="_blank">
+                    <input type="submit" value="Enter Chat">
+                </form>
             </div>
 
              <div class="post_display">
@@ -25,6 +28,9 @@
                             </li>
                           {% endfor %}
                   </ul>
+                 <form action="{% url 'create_post_view' group.slug %}">
+                    <input type="submit" value="Add Post">
+                 </form>
              </div>
 
             <div class="courses_display">

@@ -7,5 +7,8 @@
             {{ form.as_p }}
             <input type="submit" value="Submit" class="btn btn-primary">
         </form>
+        <form action="{% url 'add_question' %}">
+            <input type="submit" value="Add another question">
+        </form>
     </div>
 {% endblock %}

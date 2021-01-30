@@ -1,41 +1,62 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ course }}</h1>
+    <h1>{{ course.name }} {{ course.group_id }}</h1>
+        <a href="{% url 'profile' course.teacher.profile_user.id %}">{{ course.teacher.first_name }} {{ course.teacher.last_name }}</a>
         <div class="flex-container">
             <div class="members_display">
                 <ul>
                     <h3>Members</h3>
                     {% for member in members %}
                     <li>
-                        {{ member.user.first_name }} {{ member.user.last_name }}
+                        <a href="{% url 'profile' member.id %}">{{ member.user.first_name }} {{ member.user.last_name }}</a>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
 
-            <div class="post_display">
-              <ul>
-                  <h3>Posts</h3>
-                    {% for post in posts %}
-                            <li>
-                              <span class="names_display">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</span><br>
-                              <span class="published_display">{{ post.published }}</span><br>
-                              <span class="content_display">{{ post.content }}</span><br>
-                            </li>
-                    {% endfor %}
-              </ul>
-            </div>
+<!--            <div class="post_display">-->
+<!--              <ul>-->
+<!--                  <h3>Posts</h3>-->
+<!--                    {% for post in posts %}-->
+<!--                            <li>-->
+<!--                              <span class="names_display">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</span><br>-->
+<!--                              <span class="published_display">{{ post.published }}</span><br>-->
+<!--                              <span class="content_display">{{ post.content }}</span><br>-->
+<!--                            </li>-->
+<!--                    {% endfor %}-->
+<!--              </ul>-->
+<!--            </div>-->
 
             <div class="courses_display">
+                <h3>Lessons</h3>
                 <ul>
-                    <h3>Lessons</h3>
                     {% for lesson in lessons %}
-                    <li>
-                        <a href="{% url 'lesson' lesson.slug %}">{{ lesson.name }}</a>
-                    </li>
+                        <li>
+                            <a href="{% url 'lesson' lesson.slug %}">{{ lesson.name }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
+                {% if user.groups.all.0.name == "teacher" %}
+                <form action="{% url 'create_lesson_view' %}">
+                    <input type="submit" value="Create Lesson">
+                </form>
+                {% endif %}
+            </div>
+            <div class="courses_display">
+                <h3>Tests</h3>
+                <ul>
+                    {% for test in tests %}
+                        <li>
+                            <a href="{% url 'test_sheet' test.id %}">{{ test.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% if user.groups.all.0.name == "teacher" %}
+                <form action="{% url 'add_test' %}">
+                    <input type="submit" value="Create Test">
+                </form>
+                {% endif %}
             </div>
         </div>
 {% endblock %}

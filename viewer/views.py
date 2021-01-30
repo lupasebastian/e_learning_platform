@@ -6,10 +6,11 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 
 from accounts.models import UserProfile
+from testsheet.models import Test
 from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, \
     CreateAttachmentLessonForm
 from django.contrib.auth.models import User
-from .models import Post, Group, Course, Lesson, Schedule
+from .models import Post, Group, Course, Lesson, Schedule, AttachmentLesson
 
 
 class MainView(TemplateView):
@@ -27,7 +28,7 @@ class TeacherMainView(ListView):
     def get_context_data(self,  **kwargs):
         context = super(TeacherMainView, self).get_context_data(**kwargs)
         context['supervising_groups'] = Group.objects.filter(supervisor=self.request.user)
-        context['teaching_groups'] = Course.objects.filter(teacher=self.request.user).values('group_id', 'group_id__symbol').distinct()
+        context['teaching_groups'] = Course.objects.filter(teacher=self.request.user).values('group_id', 'group_id__symbol', 'group_id__slug').distinct()
         return context
 
 
@@ -72,7 +73,7 @@ class GroupView(SingleObjectMixin, ListView):
             col = days.index(el.day_of_week)+1
             row = times.index(el.start_time)+1
             if col and row:
-                schedule_table[row][col] = el.course_id.name
+                schedule_table[row][col] = el.course_id
         context['schedule'] = schedule_table
         return context
 
@@ -88,8 +89,9 @@ class CourseView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CourseView, self).get_context_data(**kwargs)
         context['members'] = UserProfile.objects.filter(group_id=self.object.group_id)
-        context['posts'] = Post.objects.filter(course_id=self.object)
+        # context['posts'] = Post.objects.filter(course_id=self.object)
         context['lessons'] = Lesson.objects.filter(course_id=self.object)
+        context['tests'] = Test.objects.filter(course_id=self.object)
         return context
 
 
@@ -105,10 +107,6 @@ class LessonDetailView(DetailView):
         context = super(LessonDetailView, self).get_context_data(**kwargs)
         context['attachments'] = AttachmentLesson.objects.filter(lesson_id=self.object)
         return context
-
-
-class JournalView:
-    pass
 
 
 class UserDetailView(DetailView):
@@ -133,12 +131,20 @@ class CreatePostView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Post
     form_class = CreatePostForm
-    success_url = reverse_lazy('group')
+
+    def get_success_url(self):
+        slug = self.kwargs['slug']
+        return reverse_lazy('group', kwargs={'slug': slug})
 
     def get_form_kwargs(self):
         kwargs = super(CreatePostView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(CreatePostView, self).get_initial(**kwargs)
+        initial['group_id'] = Group.objects.filter(slug=self.kwargs['slug'])
+        return initial
 
 
 class CreateLessonView(CreateView):

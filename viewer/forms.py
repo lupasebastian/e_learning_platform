@@ -24,13 +24,13 @@ class CreateCourseForm(ModelForm):
 class CreatePostForm(ModelForm):
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.user_id = user.id
+        self.user_id = kwargs.pop('user')
         self.group_id = user.profile_user.group_id
 
     class Meta:
         model = Post
         fields = '__all__'
-        exclude = ('user_id', 'published', 'group_id', 'slug', )
+        exclude = ('published', 'slug', )
 
 
 class CreateLessonForm(ModelForm):

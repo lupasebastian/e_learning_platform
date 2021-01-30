@@ -7,8 +7,7 @@
             <ul>
                 <h3>Supervising Group</h3>
                 {% for group in supervising_groups %}
-                <l>
-                    {{ group }}
+                    <a href="{% url 'group' group.slug %}"> {{ group }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -18,7 +17,7 @@
                 <h3>Teaching Groups</h3>
                 {% for group in teaching_groups %}
                 <l>
-                    {{ group.group_id__symbol }}
+                    <a href="{% url 'group' group.group_id__slug %}">{{ group.group_id__symbol }}</a>
                 </l>
                 {% endfor %}
             </ul>
@@ -33,6 +32,8 @@
                 {% endfor %}
             </ul>
         </div>
-    <a href="{% url 'create_course_view' %}">Create Course</a>
+        <form action="{% url 'create_course_view' %}">
+            <input type="submit" value="Create Course">
+        </form>
     </div>
 {% endblock %}

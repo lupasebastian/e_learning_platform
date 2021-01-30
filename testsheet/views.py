@@ -1,5 +1,4 @@
 from urllib import request
-
 from django.shortcuts import render
 from django.contrib.auth.backends import Permission
 from django.contrib.auth.decorators import login_required, permission_required
@@ -7,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
+from django.urls import reverse_lazy
 
 from .models import Test, TestQuestion, TestTeacherAnswer
 from .forms import CreateTestForm, QuestionCreateForm, AnswerCreateForm, FillTestForm
@@ -55,18 +55,21 @@ class CreateTestView(CreateView):
     form_class = CreateTestForm
     model = Test
     template_name = 'test_add.html'
+    success_url = reverse_lazy('add_question')
 
 
 class CreateQuestionView(CreateView):
     form_class = QuestionCreateForm
     model = TestQuestion
     template_name = 'test_add.html'
+    success_url = reverse_lazy('add_answer')
 
 
 class CreateAnswerView(CreateView):
     form_class = AnswerCreateForm
     model = TestTeacherAnswer
     template_name = 'test_add.html'
+    success_url = reverse_lazy('add_answer')
 
 
 class TestFillView(DetailView):
