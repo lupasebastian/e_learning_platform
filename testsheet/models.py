@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db.models import CharField, BooleanField, DateTimeField, IntegerField, ManyToManyField, \
     ForeignKey, TextField, Model, DO_NOTHING, CASCADE
@@ -6,7 +8,7 @@ from django.db.models import CharField, BooleanField, DateTimeField, IntegerFiel
 class Test(Model):
     course_id = ForeignKey('viewer.Course', on_delete=DO_NOTHING, related_name='course_test')
     teacher = ForeignKey(User, on_delete=DO_NOTHING)
-    created = DateTimeField(auto_created=True)
+    created = DateTimeField(auto_created=True, default=datetime.datetime.now())
     title = CharField(max_length=128)
     description = CharField(max_length=512)
 

@@ -36,15 +36,17 @@
                 </ul>
             </div>
         </div>
-    <table border="1">
-        <tbody>
-        {% for row in schedule %}
-        <tr>
-            {% for col in row %}
-            <td>{{ col }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="Table">
+            <table border="1">
+                <tbody>
+                {% for row in schedule %}
+                <tr>
+                    {% for col in row %}
+                    <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 {% endblock %}

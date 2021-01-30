@@ -35,11 +35,11 @@ class QuestionView(SingleObjectMixin, ListView):
         return context
 
 # AnswerView był testowy, można go usunąć.
-class AnswerView(ListView):
-
-    model = TestTeacherAnswer
-    template_name = 'answers.html'
-    context_object_name = 'answers'
+# class AnswerView(ListView):
+#
+#     model = TestTeacherAnswer
+#     template_name = 'answers.html'
+#     context_object_name = 'answers'
     #
     # def get(self, request, *args, **kwargs):
     #     self.object = self.get_object(queryset=TestTeacherAnswer.objects.all())
