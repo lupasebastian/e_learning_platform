@@ -5,10 +5,21 @@
 
         <div class="groups_display">
             <ul>
-                <h3>Groups</h3>
-                {% for group in groups %}
+                <h3>Supervising Group</h3>
+                {% for group in supervising_groups %}
                 <l>
                     {{ group }}
+                </l>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="groups_display">
+            <ul>
+                <h3>Teaching Groups</h3>
+                {% for group in teaching_groups %}
+                <l>
+                    {{ group.group_id__symbol }}
                 </l>
                 {% endfor %}
             </ul>
@@ -24,6 +35,6 @@
                 {% endfor %}
             </ul>
         </div>
-
+    <a href="{% url 'create_course_view' %}">Create Course</a>
     </div>
 {% endblock %}

@@ -27,7 +27,8 @@ class TeacherMainView(ListView):
 
     def get_context_data(self,  **kwargs):
         context = super(TeacherMainView, self).get_context_data(**kwargs)
-        context['groups'] = Group.objects.filter(supervisor=self.request.user)
+        context['supervising_groups'] = Group.objects.filter(supervisor=self.request.user)
+        context['teaching_groups'] = Course.objects.filter(teacher=self.request.user).values('group_id', 'group_id__symbol').distinct()
         return context
 
 
@@ -117,7 +118,7 @@ class CreateCourseView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Course
     form_class = CreateCourseForm
-    success_url = reverse_lazy('main_view')
+    success_url = reverse_lazy('teacher_main')
 
 
 class CreatePostView(CreateView):

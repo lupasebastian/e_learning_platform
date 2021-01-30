@@ -1,5 +1,6 @@
 from django.utils.text import slugify
 import datetime
+import random
 from django.contrib.auth.models import User
 
 from django.db.models import CharField, BooleanField, DateTimeField, DateField, FileField, ImageField, \
@@ -29,7 +30,7 @@ class Course(Model):
     slug = SlugField(blank=True, unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = f'{slugify(self.name)}_{self.group_id}'.lower()
+        self.slug = f'{slugify(self.name)}_{self.group_id}_{random.randint(0,1000)}'.lower()
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
