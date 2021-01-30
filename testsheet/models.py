@@ -35,7 +35,6 @@ class TestQuestion(Model):
 
     # attachment = ForeignKey('viewer.Attachment', blank=True, null=True, on_delete=DO_NOTHING)
 
-
     def __str__(self):
         return f'{self.test_id} {self.question_number}. {self.text_content}'
 
@@ -48,6 +47,7 @@ class TestTeacherAnswer(Model):
 
     def __str__(self):
         return f'{self.answer_num}. {self.answer_text}'
+
 
 class TestStudentAnswer(Model):
     question_id = ForeignKey(TestQuestion, on_delete=DO_NOTHING)
