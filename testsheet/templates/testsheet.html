@@ -8,12 +8,12 @@
 
 {% block content %}
     {% for question in questions %}
-        <div class="flex-container">
+        <div class="test__question_display">
                 {{ question.question_number }}. {{ question.text_content }}
         </div>
                 {% for answer in answers %}
                     {% if answer.question_id.id == question.id %}
-                        <div class="a_list">{{ answer }}</div>
+                        <div class="test_answer_display">{{ answer }}</div>
                     {% endif %}
                 {% endfor %}
 

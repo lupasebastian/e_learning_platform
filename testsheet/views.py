@@ -9,7 +9,7 @@ from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.detail import SingleObjectMixin
 
 from .models import Test, TestQuestion, TestTeacherAnswer
-from .forms import CreateTestForm
+from .forms import CreateTestForm, QuestionCreateForm, AnswerCreateForm, FillTestForm
 
 
 class TestListView(ListView):
@@ -20,6 +20,7 @@ class TestListView(ListView):
 
 class QuestionView(SingleObjectMixin, ListView):
 
+    paginate_by = 2
     model = TestQuestion
     template_name = 'testsheet.html'
 
@@ -33,7 +34,7 @@ class QuestionView(SingleObjectMixin, ListView):
         context['answers'] = TestTeacherAnswer.objects.filter(question_id__test_id=self.object.id)
         return context
 
-
+# AnswerView był testowy, można go usunąć.
 class AnswerView(ListView):
 
     model = TestTeacherAnswer
@@ -57,19 +58,19 @@ class CreateTestView(CreateView):
 
 
 class CreateQuestionView(CreateView):
-    form_class = CreateTestForm
-    model = Test
+    form_class = QuestionCreateForm
+    model = TestQuestion
     template_name = 'test_add.html'
 
 
 class CreateAnswerView(CreateView):
-    form_class = CreateTestForm
-    model = Test
+    form_class = AnswerCreateForm
+    model = TestTeacherAnswer
     template_name = 'test_add.html'
 
 
 class TestFillView(DetailView):
-    form_class = CreateTestForm
+    form_class = FillTestForm
     template_name = 'test_fill.html'
     model = Test
 
