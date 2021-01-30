@@ -7,10 +7,9 @@ from django.views.generic.detail import SingleObjectMixin
 
 from accounts.models import UserProfile
 from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, \
-    CreateAttachmentLessonForm, CreateAttachmentPostForm
+    CreateAttachmentLessonForm
 from django.contrib.auth.models import User
-from .models import Post, Group, Course, Lesson, Schedule, \
-    AttachmentPost, AttachmentLesson
+from .models import Post, Group, Course, Lesson, Schedule
 
 
 class MainView(TemplateView):
@@ -27,7 +26,8 @@ class TeacherMainView(ListView):
 
     def get_context_data(self,  **kwargs):
         context = super(TeacherMainView, self).get_context_data(**kwargs)
-        context['groups'] = Group.objects.filter(supervisor=self.request.user)
+        context['supervising_groups'] = Group.objects.filter(supervisor=self.request.user)
+        context['teaching_groups'] = Course.objects.filter(teacher=self.request.user).values('group_id', 'group_id__symbol').distinct()
         return context
 
 
@@ -117,14 +117,14 @@ class CreateCourseView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Course
     form_class = CreateCourseForm
-    success_url = reverse_lazy('main_view')
+    success_url = reverse_lazy('teacher_main')
 
 
 class CreatePostView(CreateView):
     template_name = 'creation_form_course_etc.html'
     model = Post
     form_class = CreatePostForm
-    success_url = reverse_lazy('attachment_post_upload')
+    success_url = reverse_lazy('group')
 
     def get_form_kwargs(self):
         kwargs = super(CreatePostView, self).get_form_kwargs()
@@ -151,22 +151,9 @@ def attachment_lesson_upload(request):
         form = CreateAttachmentLessonForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('main_view')
+            return redirect('teacher_main')
     else:
         form = CreateAttachmentLessonForm()
-    return render(request, 'upload_form_attachment.html', {
-        'form': form
-    })
-
-
-def attachment_post_upload(request):
-    if request.method == 'POST':
-        form = CreateAttachmentPostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('main_view')
-    else:
-        form = CreateAttachmentPostForm()
     return render(request, 'upload_form_attachment.html', {
         'form': form
     })

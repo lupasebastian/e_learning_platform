@@ -4,7 +4,7 @@ from django.urls import path
 
 from .views import UserDetailView, MainView, CreateCourseView, CreatePostView, \
     CreateLessonView, CreateGroupView, TeacherMainView, GroupList, GroupView, \
-    CourseView, LessonDetailView, attachment_lesson_upload, attachment_post_upload
+    CourseView, LessonDetailView, attachment_lesson_upload
 
 
 urlpatterns = [
@@ -20,6 +20,5 @@ urlpatterns = [
     path('groups/<slug:slug>/create_post/', CreatePostView.as_view(), name='create_post_view'),
     path('create_lesson/', CreateLessonView.as_view(), name='create_lesson_view'),
     path('create_group/', CreateGroupView.as_view(), name='create_group_view'),
-    path('upload_attachment_lesson_succesful', attachment_lesson_upload, name='attachment_lesson_upload'),
-    path('upload_attachment_post_succesful', attachment_post_upload, name='attachment_post_upload'),
+    path('upload_attachment_lesson', attachment_lesson_upload, name='attachment_lesson_upload'),
 ]

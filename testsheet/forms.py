@@ -11,6 +11,7 @@ class CreateTestForm(ModelForm):
         model = Test
         fields = '__all__'
 
+
 class QuestionCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,6 +19,7 @@ class QuestionCreateForm(ModelForm):
     class Meta:
         model = TestQuestion
         fields = '__all__'
+
 
 class AnswerCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
