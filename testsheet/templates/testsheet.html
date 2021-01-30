@@ -12,4 +12,10 @@
                 {{ question.question_number }}. {{ question.text_content }}
             </li>
         {% endfor %}
+        {% for answer in answers %}
+            <li>
+                {{ answer.answer_num }}. {{ answer.answer_text }}
+            </li>
+        {% endfor %}
+
 {% endblock %}

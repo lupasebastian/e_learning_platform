@@ -1,20 +1,22 @@
-from django.contrib.auth.models import User
-from django.shortcuts import redirect, render
+
+import datetime
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
+
 from accounts.models import UserProfile
 from .forms import CreatePostForm, CreateLessonForm, CreateCourseForm, CreateGroupForm, CreateGradeForm, \
-    CreateAttendanceForm, CreateAttachmentLessonForm, CreateAttachmentPostForm
-from .models import Post, Group, Course, Lesson, Grade, AttachmentPost, Attendance, AttachmentLesson
+    CreateAttendanceForm, CreateAttachmentForm
+from django.contrib.auth.models import User
+from .models import Post, Group, Course, Lesson, Grade, Attachment, Attendance, Schedule, \
+    AttachmentPost, Attendance, AttachmentLesson, CreateAttendanceForm, CreateAttachmentLessonForm, \
+    CreateAttachmentPostForm
 
 
-class WelcomePageView(TemplateView):
+
+class MainView(TemplateView):
     template_name = 'home.html'
-
-
-class MainView(View):
-    pass
 
 
 class TeacherMainView(ListView):
@@ -51,6 +53,29 @@ class GroupView(SingleObjectMixin, ListView):
         context['posts'] = Post.objects.filter(group_id=self.object)
         context['courses'] = Course.objects.filter(group_id=self.object)
         context['group'] = self.object
+        schedule = Schedule.objects.filter(course_id__group_id=self.object).order_by('day_of_week').order_by('start_time')
+        days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+        times = [
+            datetime.time(hour=8, minute=0),
+            datetime.time(hour=9, minute=0),
+            datetime.time(hour=10, minute=0),
+            datetime.time(hour=11, minute=0),
+            datetime.time(hour=12, minute=0),
+            datetime.time(hour=13, minute=0),
+            datetime.time(hour=14, minute=0),
+            datetime.time(hour=15, minute=0)
+        ]
+        schedule_table = [
+            ['time', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+        ]
+        for time in times:
+            schedule_table.append([time] + 5*[''])
+        for el in schedule:
+            col = days.index(el.day_of_week)+1
+            row = times.index(el.start_time)+1
+            if col and row:
+                schedule_table[row][col] = el.course_id.name
+        context['schedule'] = schedule_table
         return context
 
 
@@ -82,6 +107,12 @@ class JournalView:
 class UserDetailView(DetailView):
     template_name = 'user_detail_template.html'
     model = UserProfile
+
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        context['supervisor_group'] = Group.objects.filter(supervisor__profile_user=self.kwargs['pk']).first()
+        context['courses'] = Course.objects.filter(teacher__profile_user=self.kwargs['pk'])
+        return context
 
 
 class CreateCourseView(CreateView):

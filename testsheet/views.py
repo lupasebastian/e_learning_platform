@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render
 from django.contrib.auth.backends import Permission
 from django.contrib.auth.decorators import login_required, permission_required
@@ -11,7 +13,6 @@ from .models import Test, QuestionType, QuestionType, TestQuestion,TestTeacherAn
 from .forms import CreateTestForm
 
 
-
 class TestListView(ListView):
 
     model = Test
@@ -22,7 +23,6 @@ class QuestionView(SingleObjectMixin, ListView):
 
     model = TestQuestion
     template_name = 'testsheet.html'
-    context_object_name = 'questions'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=TestQuestion.objects.all())
@@ -30,7 +30,8 @@ class QuestionView(SingleObjectMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(QuestionView, self).get_context_data(**kwargs)
-        context['questions'] = TestQuestion.objects.filter(test_id=self.object.test_id)
+        context['questions'] = TestQuestion.objects.filter(test_id=self.object.id)
+        context['answers'] = TestTeacherAnswer.objects.filter(question_id__test_id=self.object.id)
         return context
 
 

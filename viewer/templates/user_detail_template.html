@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-Coś tam coś tam
+  <h1>{{ object.user.first_name }} {{ object.user.last_name }}</h1>
+  <img src="{{ MEDIA_URL }}avatar_img/default-avatar.png" >
+    {% if object.user.groups.all.0.name == 'student' %}
+      Class: <a href="{% url 'group' object.group_id.slug %}">{{ object.group_id.symbol }}</a>
+      Supervisor: <a href="{% url 'profile' object.group_id.supervisor.profile_user.id %}">{{ object.group_id.supervisor.first_name }} {{ object.group_id.supervisor.last_name }}</a>
+    {% endif %}
+    {% if object.user.groups.all.0.name == 'teacher' %}
+    Supervising: <a href="{% url 'group' supervisor_group.slug %}">{{ supervisor_group.symbol }}</a>
+    Courses:
+    {% for course in courses %}
+      <li>
+        <a href="{% url 'course' course.slug %}">{{ course.name }} - {{ course.group_id.symbol }}</a>
+      </li>
+    {% endfor %}
+    {% endif %}
 {% endblock %}

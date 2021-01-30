@@ -13,11 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from viewer.views import MainView
+from accounts.views import login_success
+from viewer.models import Schedule
+
 from django.contrib import admin
 from django.urls import path, include
 
-from viewer.views import WelcomePageView, GroupList, GroupView, CourseView, LessonDetailView, TeacherMainView
-from accounts.views import login_success
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 # from viewer.models import Role, Group, Course, Lesson, Post, Attachment, PostAttachment, LessonAttachment, Grade, Attendance
 # from testsheet.models import Test, QuestionType, TestQuestion, TestTeacherAnswer, TestStudentAnswer
 # from accounts.models import UserProfile
@@ -38,19 +44,16 @@ from accounts.views import login_success
 # admin.site.register(TestTeacherAnswer)
 # admin.site.register(TestStudentAnswer)
 # admin.site.register(UserProfile)
+admin.site.register(Schedule)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', WelcomePageView.as_view(), name='home'),
-    path('teacher/', TeacherMainView.as_view(), name='teacher_main'),
-    path('groups/', GroupList.as_view(), name='group_list'),
-    path('groups/<slug:slug>/', GroupView.as_view(), name='group'),
-    path('courses/<slug:slug>/', CourseView.as_view(), name='course'),
-    path('lesson/<slug:slug>/', LessonDetailView.as_view(), name='lesson'),
+    path('', MainView.as_view(), name='welcome_view'),
+    path('main_view/', MainView.as_view(), name='main_view'),
     path('accounts/', include('accounts.urls')),
     path('testsheet/', include('testsheet.urls')),
     path('viewer/', include('viewer.urls')),
     path('chat/', include('chat.urls')),
-    path(r'login_success/$', login_success, name='login_success')
-]
+    path('login_success/', login_success, name='login_success')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
