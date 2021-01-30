@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 {% block site_title %}
     <h1>
-        Good Luck!
+        {{ test_name }}
     </h1>
 {% endblock %}
 
 
 {% block content %}
-            {% for question in questions %}
-                <li>
-                    {{ question.question_number }}. {{ question.text_content }}
-                </li>
+    {% for question in questions %}
+        <div class="flex-container">
+                {{ question.question_number }}. {{ question.text_content }}
+        </div>
                 {% for answer in answers %}
-                        {% if answer.question_id == question.id %}
-                            {{ answer }}
-                        {% endif %}
+                    {% if answer.question_id.id == question.id %}
+                        <div class="a_list">{{ answer }}</div>
+                    {% endif %}
                 {% endfor %}
-            {% endfor %}
+
+    {% endfor %}
+
+
 {% endblock %}
 

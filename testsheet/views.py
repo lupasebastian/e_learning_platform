@@ -18,7 +18,6 @@ class TestListView(ListView):
 
 class QuestionView(SingleObjectMixin, ListView):
 
-
     model = TestQuestion
     template_name = 'testsheet.html'
 
@@ -33,25 +32,35 @@ class QuestionView(SingleObjectMixin, ListView):
         return context
 
 
+class AnswerView(ListView):
 
-class AnswerView(SingleObjectMixin, ListView):
-    pass
-#
-#     model = TestTeacherAnswer
-#     template_name = 'answers.html'
-#     context_object_name = 'answers'
-#
-#     def get(self, request, *args, **kwargs):
-#         self.object = self.get_object(queryset=TestTeacherAnswer.objects.all())
-#         return super().get(request, *args, **kwargs)
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(AnswerView, self).get_context_data(**kwargs)
-#         context['answers'] = TestTeacherAnswer.objects.filter(question_id=self.object.question_id)
-#         return context
+    model = TestTeacherAnswer
+    template_name = 'answers.html'
+    context_object_name = 'answers'
+    #
+    # def get(self, request, *args, **kwargs):
+    #     self.object = self.get_object(queryset=TestTeacherAnswer.objects.all())
+    #     return super().get(request, *args, **kwargs)
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super(AnswerView, self).get_context_data(**kwargs)
+    #     context['answers'] = TestTeacherAnswer.objects.filter(question_id=self.object.question_id)
+    #     return context
 
 
 class CreateTestView(CreateView):
+    form_class = CreateTestForm
+    model = Test
+    template_name = 'test_add.html'
+
+
+class CreateQuestionView(CreateView):
+    form_class = CreateTestForm
+    model = Test
+    template_name = 'test_add.html'
+
+
+class CreateAnswerView(CreateView):
     form_class = CreateTestForm
     model = Test
     template_name = 'test_add.html'
