@@ -37,7 +37,9 @@
                 <ul>
                     <h3>Courses</h3>
                     {% for course in courses %}
-                        <a href="{% url 'course' course.slug %}"><li>{{ course }}</li></a>
+                    <li>
+                    <a href="{% url 'course' course.slug %}">{{ course }}</a>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>

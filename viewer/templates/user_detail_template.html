@@ -7,13 +7,20 @@
       Class: <a href="{% url 'group' object.group_id.slug %}">{{ object.group_id.symbol }}</a>
       Supervisor: <a href="{% url 'profile' object.group_id.supervisor.profile_user.id %}">{{ object.group_id.supervisor.first_name }} {{ object.group_id.supervisor.last_name }}</a>
     {% endif %}
+  <br>
     {% if object.user.groups.all.0.name == 'teacher' %}
-    Supervising: <a href="{% url 'group' supervisor_group.slug %}">{{ supervisor_group.symbol }}</a>
-    Courses:
-    {% for course in courses %}
-      <li>
-        <a href="{% url 'course' course.slug %}">{{ course.name }} - {{ course.group_id.symbol }}</a>
-      </li>
-    {% endfor %}
+    <div class="a_list">
+      <ul>Supervising:</ul>
+      <li><a href="{% url 'group' supervisor_group.slug %}">{{ supervisor_group.symbol }}</a></li>
+    </div>
+
+    <div class="a_list">
+      <ul>Courses:</ul>
+      {% for course in courses %}
+        <li>
+            <a href="{% url 'course' course.slug %}">{{ course.name }} - {{ course.group_id.symbol }}</a>
+        </li>
+      {% endfor %}
+    </div>
     {% endif %}
 {% endblock %}
