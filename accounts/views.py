@@ -1,5 +1,5 @@
 from django.contrib.auth.views import LoginView, PasswordChangeView
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView, DetailView
 from django.urls import reverse_lazy
 
@@ -19,7 +19,7 @@ class MyPasswordChangeView(PasswordChangeView):
 class SignUpView(CreateView):
     template_name = 'accounts_form.html'
     form_class = SignUpForm
-    success_url = reverse_lazy('main_view')
+    success_url = reverse_lazy('registration_success')
 
 
 def login_success(request):
@@ -29,3 +29,8 @@ def login_success(request):
         return redirect('teacher_main')
     else:
         return redirect('home')
+
+
+def registration_success(request):
+    return render(request, 'registration_success.html',
+                  context={'text': 'Your account has been created, please wait for activation.'})

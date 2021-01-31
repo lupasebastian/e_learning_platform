@@ -28,9 +28,11 @@
                             </li>
                           {% endfor %}
                   </ul>
-                 <form action="{% url 'create_post_view' group.slug %}">
-                    <input type="submit" value="Add Post">
-                 </form>
+                 {% if user.groups.all.0.name == "teacher" %}
+                    <form action="{% url 'create_post_view' group.slug %}">
+                       <input type="submit" value="Add Post">
+                    </form>
+                 {% endif %}
              </div>
 
             <div class="courses_display">
