@@ -6,6 +6,10 @@ body {
     font-family: Helvetica, serif;
 }
 
+h3 {
+    color: black;
+}
+
 .topnav {
     background-color: rgba(51, 51, 51, 0.3);
     overflow: hidden;
@@ -180,7 +184,6 @@ footer .enterprise {
 }
 
 a {
-    float: right;
     color: #000000;
     text-align: center;
     padding: 2px 2px;
