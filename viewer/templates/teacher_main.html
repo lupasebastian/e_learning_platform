@@ -7,21 +7,24 @@
             <ul>
                 <h3>Supervising Group</h3>
                 {% for group in supervising_groups %}
+                <li>
                     <a href="{% url 'group' group.slug %}"> {{ group }}</a>
                 </li>
                 {% endfor %}
             </ul>
         </div>
-        <div class="groups_display">
+
+        <div class="a_list">
             <ul>
                 <h3>Teaching Groups</h3>
                 {% for group in teaching_groups %}
-                <l>
+                <li>
                     <a href="{% url 'group' group.group_id__slug %}">{{ group.group_id__symbol }}</a>
-                </l>
+                </li>
                 {% endfor %}
             </ul>
         </div>
+
         <div class="a_list">
             <ul>
                 <h3>Courses</h3>
