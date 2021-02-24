@@ -24,8 +24,6 @@ class CreateCourseForm(ModelForm):
 class CreatePostForm(ModelForm):
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.user_id = kwargs.pop('user')
-        # self.group_id = user.profile_user.group_id
 
     class Meta:
         model = Post
